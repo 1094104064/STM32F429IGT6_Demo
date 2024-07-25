@@ -408,6 +408,13 @@
         </Group>
         <Group>
           <GroupName>Dev</GroupName>
+          <Files>
+            <File>
+              <FileName>dev_console.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Dev\dev_console.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Bsp</GroupName>

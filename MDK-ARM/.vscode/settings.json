@@ -2,7 +2,8 @@
     "files.associations": {
         "delay.h": "c",
         "stm32f4xx.h": "c",
-        "bsp.h": "c"
+        "bsp.h": "c",
+        "proj.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

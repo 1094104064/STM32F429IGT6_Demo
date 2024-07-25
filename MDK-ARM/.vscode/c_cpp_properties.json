@@ -3,15 +3,17 @@
         {
             "name": "Application",
             "includePath": [
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\Libraries\\CMSIS\\Device\\ST\\STM32F4xx\\Include",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\Libraries\\CMSIS\\Include",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\User\\Basic",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\User\\Core",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\User\\Bsp",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\Libraries\\CMSIS\\Device\\ST\\STM32F4xx\\Source\\Templates\\arm",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\Libraries\\CMSIS\\Device\\ST\\STM32F4xx\\Source\\Templates",
-                "d:\\MyFlies\\Proj\\STM32F429IGT6_SerialPortTranRec\\Libraries\\STM32F4xx_StdPeriph_Driver\\src"
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\Libraries\\CMSIS\\Device\\ST\\STM32F4xx\\Include",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\Libraries\\CMSIS\\Include",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\Libraries\\STM32F4xx_StdPeriph_Driver\\inc",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\User\\Basic",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\User\\Core",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\User\\Bsp",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\User\\Dev",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\User\\Example",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\Libraries\\CMSIS\\Device\\ST\\STM32F4xx\\Source\\Templates\\arm",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\Libraries\\CMSIS\\Device\\ST\\STM32F4xx\\Source\\Templates",
+                "d:\\MyFlies\\Proj\\Github\\STM32F429IGT6_Demo\\Libraries\\STM32F4xx_StdPeriph_Driver\\src"
             ],
             "defines": [
                 "USE_STDPERIPH_DRIVER",
