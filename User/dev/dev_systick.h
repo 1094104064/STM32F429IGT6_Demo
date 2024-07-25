@@ -1,32 +1,21 @@
 /**
   ******************************************************************************
   *
-  * @file    proj.h
+  * @file    dev_systick.h
   * @author  GarMing
-  * @brief   Include all project related headers.
+  * @brief   Header file of dev_systick module.
   *
   ******************************************************************************
   **/
   
-#ifndef _PROJ_H
-#define _PROJ_H
+#ifndef _DEV_SYSTICK_H
+#define _DEV_SYSTICK_H
 
-
-/***************************
- * CURRENT VERSION OF PROJ
- ***************************/
-#define PROJ_VERSION_MAJOR 0
-#define PROJ_VERSION_MINOR 1
-#define PROJ_VERSION_PATCH 0
-#define PROJ_VERSION_INFO ""
 /*********************
  *      INCLUDES
  *********************/
-#include "log.h"
-#include "examples.h"
-
-#include "dev_console.h"
-#include "dev_systick.h"
+ #include <stdint.h>
+#include "stm32f4xx.h"
 /*********************
  *      DEFINES
  *********************/
@@ -34,16 +23,24 @@
 /**********************
  *      TYPEDEFS
  **********************/
- 
+
+enum {
+    DEV_SYSTICK_PERIOD_SLOW     = 1000,
+    DEV_SYSTICK_PERIOD_FAST     = 1
+};
+
 /**********************
 * GLOBAL PROTOTYPES
 **********************/
-
+void     dev_systick_init(uint32_t period);
+uint32_t dev_systick_get_ticks(void);
+void     dev_systick_delay_ms(uint32_t ms);
+uint32_t dev_systick_count_sec(void);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_PROJ_H*/
+#endif /*_DEV_SYSTICK_H*/
 
 
 /******************************* (END OF FILE) *********************************/

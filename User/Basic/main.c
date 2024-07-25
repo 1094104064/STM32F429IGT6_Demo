@@ -71,6 +71,7 @@ int main(void)
 static void Init(void)
 {
     dev_console_init(DEV_CONSOLE_BAUD_HIGH);
+    dev_systick_init(DEV_SYSTICK_PERIOD_SLOW);
 }
 
 /**
@@ -93,7 +94,7 @@ static void Config(void)
 static void Loop(void)
 {
     for(;;) {
-        ex_console_1();
+        ex_systick_1();
     }
 }
 

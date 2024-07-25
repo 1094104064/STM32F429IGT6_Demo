@@ -47,9 +47,9 @@ typedef struct {
 }dev_console_t;
 
 enum {
-	DEV_CONSOLE_BAUD_LOW		= 9600,
-	DEV_CONSOLE_BAUD_MID		= 115200,
-	DEV_CONSOLE_BAUD_HIGH	    = 230400,
+    DEV_CONSOLE_BAUD_LOW        = 9600,
+    DEV_CONSOLE_BAUD_MID        = 115200,
+    DEV_CONSOLE_BAUD_HIGH       = 230400,
 };
 
 /**********************

@@ -414,6 +414,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\dev\dev_console.c</FilePath>
             </File>
+            <File>
+              <FileName>dev_systick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\dev\dev_systick.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -426,6 +431,11 @@
               <FileName>ex_console_1.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\examples\ex_console_1.c</FilePath>
+            </File>
+            <File>
+              <FileName>ex_systick_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\examples\ex_systick_1.c</FilePath>
             </File>
           </Files>
         </Group>

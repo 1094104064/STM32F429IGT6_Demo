@@ -27,6 +27,9 @@
 * GLOBAL PROTOTYPES
 **********************/
 void ex_console_1(void);
+
+void ex_systick_1(void);
+
 /**********************
  *      MACROS
  **********************/
