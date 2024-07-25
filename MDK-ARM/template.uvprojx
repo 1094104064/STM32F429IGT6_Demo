@@ -329,8 +329,8 @@
             <uC99>1</uC99>
             <uGnu>0</uGnu>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
-            <v6LangP>1</v6LangP>
+            <v6Lang>3</v6Lang>
+            <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F429_439xx,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\CMSIS\Include;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\User\Basic;..\User\Core;..\User\Bsp;..\User\Dev;..\User\Example</IncludePath>
+              <IncludePath>..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\CMSIS\Include;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\User\basic;..\User\core;..\User\dev;..\User\bsp;..\User\examples</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -382,45 +382,52 @@
       </TargetOption>
       <Groups>
         <Group>
-          <GroupName>Basic</GroupName>
+          <GroupName>User/basic</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Basic\main.c</FilePath>
+              <FilePath>..\User\basic\main.c</FilePath>
             </File>
             <File>
               <FileName>log.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Basic\log.c</FilePath>
+              <FilePath>..\User\basic\log.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Core</GroupName>
+          <GroupName>User/core</GroupName>
           <Files>
             <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Core\stm32f4xx_it.c</FilePath>
+              <FilePath>..\User\core\stm32f4xx_it.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Dev</GroupName>
+          <GroupName>User/dev</GroupName>
           <Files>
             <File>
               <FileName>dev_console.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\Dev\dev_console.c</FilePath>
+              <FilePath>..\User\dev\dev_console.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Bsp</GroupName>
+          <GroupName>User/bsp</GroupName>
         </Group>
         <Group>
-          <GroupName>Example</GroupName>
+          <GroupName>User/examples</GroupName>
+          <Files>
+            <File>
+              <FileName>ex_console_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\examples\ex_console_1.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>Startup</GroupName>

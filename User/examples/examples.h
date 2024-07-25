@@ -1,30 +1,20 @@
 /**
   ******************************************************************************
   *
-  * @file    proj.h
+  * @file    examples.h
   * @author  GarMing
-  * @brief   Include all project related headers.
+  * @brief   
   *
   ******************************************************************************
   **/
   
-#ifndef _PROJ_H
-#define _PROJ_H
+#ifndef _EXAMPLES_H
+#define _EXAMPLES_H
 
-
-/***************************
- * CURRENT VERSION OF PROJ
- ***************************/
-#define PROJ_VERSION_MAJOR 0
-#define PROJ_VERSION_MINOR 1
-#define PROJ_VERSION_PATCH 0
-#define PROJ_VERSION_INFO ""
 /*********************
  *      INCLUDES
  *********************/
-#include "log.h"
-#include "examples.h"
-#include "dev_console.h"
+
 /*********************
  *      DEFINES
  *********************/
@@ -36,12 +26,12 @@
 /**********************
 * GLOBAL PROTOTYPES
 **********************/
-
+void ex_console_1(void);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_PROJ_H*/
+#endif /*_EXAMPLES_H*/
 
 
 /******************************* (END OF FILE) *********************************/

@@ -93,7 +93,7 @@ static void Config(void)
 static void Loop(void)
 {
     for(;;) {
-
+        ex_console_1();
     }
 }
 

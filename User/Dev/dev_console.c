@@ -33,22 +33,23 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static void dev_console_gpio_init(void);
-static void dev_console_nvic_init(void);
-static void dev_console_uart_init(uint32_t baud);
+static void _dev_console_gpio_init(void);
+static void _dev_console_nvic_init(void);
+static void _dev_console_uart_init(uint32_t baud);
+static void _dev_console_receive_proc(void);
 /**********************
  *  STATIC VARIABLES
  **********************/
-
+dev_console_t g_ConsoleRecInfo;
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
 
 void dev_console_init(uint32_t baud)
 {
-    dev_console_gpio_init();
-    dev_console_nvic_init();
-    dev_console_uart_init(baud);
+    _dev_console_gpio_init();
+    _dev_console_nvic_init();
+    _dev_console_uart_init(baud);
 }
 
 
@@ -56,6 +57,8 @@ void dev_console_deinit(void)
 {
 
 }
+
+
 
 /**
   * @brief  redirect fputc function to use printf.
@@ -74,14 +77,26 @@ int fputc(int c, FILE *fp)
     return (c); 
 }
 
-
+/**
+  * @brief  Usart1 receive interrupt processing.
+  * @param  None
+  * @retval NULL
+  */
+void USART1_IRQHandler(void)
+{
+    /*!< Interrupt Response */
+    if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {	
+        
+        _dev_console_receive_proc();
+    }	 	
+}
 
 
 
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-static void dev_console_gpio_init(void)
+static void _dev_console_gpio_init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     
@@ -107,7 +122,7 @@ static void dev_console_gpio_init(void)
     GPIO_PinAFConfig(DEV_CONSOLE_RX_PORT, DEV_CONSOLE_RX_PinSource, GPIO_AF_USART1);
 }
 
-static void dev_console_nvic_init(void)
+static void _dev_console_nvic_init(void)
 {
     NVIC_InitTypeDef NVIC_InitStructure;	
     
@@ -122,7 +137,7 @@ static void dev_console_nvic_init(void)
     NVIC_Init(&NVIC_InitStructure); 
 }
 
-static void dev_console_uart_init(uint32_t baud)
+static void _dev_console_uart_init(uint32_t baud)
 {
     USART_InitTypeDef USART_InitStructure;
     
@@ -143,6 +158,27 @@ static void dev_console_uart_init(uint32_t baud)
     
     /*!< Enable the receive disrupt of Usart1 */
     USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);	
+}
+
+static void _dev_console_receive_proc(void)
+{
+    static uint16_t i; 
+
+    /*!< Data Receiving Buffer */
+    g_ConsoleRecInfo.rec_buf[i] = USART_ReceiveData(USART1);	
+    
+    /*!< Whether there is a frame of data */
+    if((g_ConsoleRecInfo.rec_buf[i] == 0x0A) && (g_ConsoleRecInfo.rec_buf[i-1] == 0x0D)) {
+        g_ConsoleRecInfo.rec_flg = 1;	    /**< Received a frame of data*/
+        g_ConsoleRecInfo.rec_cnt = i;       /**< Count the frame data size*/
+        i = 0;                              /**< Buffer refresh*/
+    }
+    else {			
+        i++;		                        /**< Buffer increase*/
+    }
+    
+    /*!< Out of buffer and refresh */
+    if(i > DEV_CONSOLE_REC_SIZE) i = 0;
 }
  
 /**********************
