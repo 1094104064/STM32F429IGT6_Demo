@@ -38,7 +38,7 @@
 /**
 * @brief  Usart receive info structure definition
 */
-typedef struct {
+typedef struct _dev_console_t{
     
     uint8_t  rec_buf[DEV_CONSOLE_REC_SIZE];
     uint8_t  rec_flg;

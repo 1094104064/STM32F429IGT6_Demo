@@ -423,6 +423,23 @@
         </Group>
         <Group>
           <GroupName>User/bsp</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_led.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>User/algorithm</GroupName>
+          <Files>
+            <File>
+              <FileName>alg_ringbuf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\algorithm\alg_ringbuf.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>User/examples</GroupName>
