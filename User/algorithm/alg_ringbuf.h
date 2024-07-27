@@ -38,6 +38,14 @@ typedef struct _alg_ringbuf_t {
 * GLOBAL PROTOTYPES
 **********************/
 
+int             alg_ringbuf_init(alg_ringbuf_t * pHandle, char * pBuf, ringbuf_size_t buf_size);
+void            alg_ringbuf_enqueue_byte(alg_ringbuf_t * pHandle, char byte);
+void            alg_ringbuf_enqueue_data(alg_ringbuf_t * pHandle, const char * pData, ringbuf_size_t data_size);
+int             alg_ringbuf_dequeue_byte(alg_ringbuf_t * pHandle, char * pBbyte);
+ringbuf_size_t  alg_ringbuf_dequeue_data(alg_ringbuf_t * pHandle, char * pData, ringbuf_size_t data_size);
+int             alg_ringbuf_peek(alg_ringbuf_t * pHandle, char * pData, ringbuf_size_t index);
+
+
 
 inline uint8_t alg_ringbuf_is_empty(alg_ringbuf_t * pHandle)
 {
