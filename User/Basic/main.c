@@ -81,7 +81,10 @@ static void Init(void)
   */
 static void Config(void)
 {
-  LOG_USER("Completed!");
+    
+    ex_task_1();
+
+    LOG_USER("Completed!");
 }
 
 
@@ -94,7 +97,7 @@ static void Config(void)
 static void Loop(void)
 {
     for(;;) {
-        ex_systick_1();
+        bsp_task_handler();
     }
 }
 
@@ -108,15 +111,15 @@ static void Proj(void)
 {
     printf("\r\n");
     printf("\r\n");
-    LOG_INFO("*************************************************************");
+    LOG_USER("*************************************************************");
     printf("\r\n");
-    LOG_INFO("Project description: Demo base on STM32F429IGT6");
+    LOG_USER("Project description: Demo base on STM32F429IGT6");
     printf("\r\n");
-    LOG_INFO("Project Version: %d.%d.%d", PROJ_VERSION_MAJOR, PROJ_VERSION_MINOR, PROJ_VERSION_PATCH);
+    LOG_USER("Project Version: %d.%d.%d", PROJ_VERSION_MAJOR, PROJ_VERSION_MINOR, PROJ_VERSION_PATCH);
     printf("\r\n");
-    LOG_INFO("Compile time: (Date)%s,  (Time)%s", __DATE__, __TIME__);
+    LOG_USER("Compile time: (Date)%s,  (Time)%s", __DATE__, __TIME__);
     printf("\r\n");
-    LOG_INFO("*************************************************************");
+    LOG_USER("*************************************************************");
     printf("\r\n");
     printf("\r\n");
 }

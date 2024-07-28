@@ -1,35 +1,20 @@
 /**
   ******************************************************************************
   *
-  * @file    proj.h
+  * @file    alg_linklist.h
   * @author  GarMing
-  * @brief   Include all project related headers.
+  * @brief   Header file of alg_linklist module.
   *
   ******************************************************************************
   **/
   
-#ifndef _PROJ_H
-#define _PROJ_H
+#ifndef _ALG_LINKLIST_H
+#define _ALG_LINKLIST_H
 
-
-/***************************
- * CURRENT VERSION OF PROJ
- ***************************/
-#define PROJ_VERSION_MAJOR 0
-#define PROJ_VERSION_MINOR 1
-#define PROJ_VERSION_PATCH 0
-#define PROJ_VERSION_INFO ""
 /*********************
  *      INCLUDES
  *********************/
-#include "log.h"
-#include "examples.h"
-
-#include "dev_console.h"
-#include "dev_systick.h"
-
-#include "bsp_task.h"
-
+#include <stdint.h>
 /*********************
  *      DEFINES
  *********************/
@@ -46,7 +31,8 @@
  *      MACROS
  **********************/
 
-#endif /*_PROJ_H*/
+#endif /*_ALG_LINKLIST_H*/
 
 
 /******************************* (END OF FILE) *********************************/
+

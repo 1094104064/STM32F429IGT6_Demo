@@ -429,6 +429,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\bsp\bsp_led.c</FilePath>
             </File>
+            <File>
+              <FileName>bsp_task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_task.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -438,6 +443,11 @@
               <FileName>alg_ringbuf.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\algorithm\alg_ringbuf.c</FilePath>
+            </File>
+            <File>
+              <FileName>alg_linklist.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\algorithm\alg_linklist.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -453,6 +463,11 @@
               <FileName>ex_systick_1.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\examples\ex_systick_1.c</FilePath>
+            </File>
+            <File>
+              <FileName>ex_task_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\examples\ex_task_1.c</FilePath>
             </File>
           </Files>
         </Group>

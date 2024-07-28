@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   *
-  * @file    dev_systick.c
+  * @file    ex_task_1.c
   * @author  GarMing
   * @brief   
   *
@@ -17,7 +17,7 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "dev_systick.h"
+#include "proj.h"
 /**********************
  *      MACROS
  **********************/
@@ -25,7 +25,7 @@
 /*********************
  *      DEFINES
  *********************/
-#define SYSCLK  SystemCoreClock
+
 /**********************
  *   GLOBAL VARIABLES
  **********************/ 
@@ -33,50 +33,38 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-
+static void _task_1(void);
+static void _task_2(void);
+static void _task_3(void);
 /**********************
  *  STATIC VARIABLES
  **********************/
-static volatile uint32_t s_ElapsTicks; 
+
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
-void dev_systick_init(uint32_t period)
+void ex_task_1(void)
 {
-    SysTick_Config(SYSCLK / period);
+    bsp_task_register(_task_1, 500, BSP_TASK_STATE_EN);
+    bsp_task_register(_task_2, 1000, BSP_TASK_STATE_DISEN);
+    bsp_task_register(_task_3, 2000, BSP_TASK_STATE_EN);
 }
-
-uint32_t dev_systick_get_ticks(void)
-{
-    return s_ElapsTicks;
-}
-
-void dev_systick_delay_ms(uint32_t ms)
-{
-    uint32_t act_time = dev_systick_get_ticks();
-    
-    while((dev_systick_get_ticks() - act_time) < ms);
-}
-
-uint32_t dev_systick_count_sec(void)
-{
-    if(!(s_ElapsTicks % 1000)) {
-        return s_ElapsTicks;
-    }
-    return 0;
-}
-
-void dev_systick_inc(uint32_t millis)
-{
-    s_ElapsTicks += millis;
-}
-
 /**********************
  *   STATIC FUNCTIONS
  **********************/
+static void _task_1(void)
+{
+    LOG_INFO("Task 1 Finished!");
+}
 
+static void _task_2(void)
+{
+    LOG_INFO("Task 2 Finished!");
+}
 
-
-
+static void _task_3(void)
+{
+    LOG_INFO("Task 3 Finished!");
+}
 
 /******************************* (END OF FILE) *********************************/

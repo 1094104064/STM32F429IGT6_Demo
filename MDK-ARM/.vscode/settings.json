@@ -8,7 +8,8 @@
         "dev_console.h": "c",
         "bsp_led.h": "c",
         "bsp_ringbuf.h": "c",
-        "alg_ringbuf.h": "c"
+        "alg_ringbuf.h": "c",
+        "bsp_task.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

@@ -56,6 +56,7 @@ enum {
 * GLOBAL PROTOTYPES
 **********************/
 void dev_console_init(uint32_t baud);
+void dev_console_receive_proc(void);
 /**********************
  *      MACROS
  **********************/
