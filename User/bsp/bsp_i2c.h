@@ -27,10 +27,29 @@ extern "C" {
 /**********************
  *      TYPEDEFS
  **********************/
- 
+
+typedef struct _bsp_i2c_delay_interface_t {
+    void (* init)(void);
+    void (* deinit)(void);
+    void (* delay_ms)(void);
+    void (* delay_us)(void);
+}bsp_i2c_delay_interface_t;
+
+
+
+typedef struct _bsp_i2c_t {
+    int8_t (* init) (void);
+    int8_t (* deinit) (void);
+    int8_t (* scl_high)(void);
+    int8_t (* scl_low)(void);
+    int8_t (* sda_high)(void);
+    int8_t (* sda_low)(void);
+    bsp_i2c_delay_interface_t delay_interface;
+}bsp_i2c_t;
+
 /**********************
-* GLOBAL PROTOTYPES
-**********************/
+*  GLOBAL PROTOTYPES
+ **********************/
 
 /**********************
  *      MACROS

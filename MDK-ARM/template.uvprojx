@@ -419,6 +419,16 @@
               <FileType>1</FileType>
               <FilePath>..\User\core\core_usart1.c</FilePath>
             </File>
+            <File>
+              <FileName>core_swiic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\core\core_swiic.c</FilePath>
+            </File>
+            <File>
+              <FileName>core_hwiic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\core\core_hwiic.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -448,6 +458,11 @@
               <FileName>bsp_task.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\bsp\bsp_task.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_bmp180.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_bmp180.c</FilePath>
             </File>
           </Files>
         </Group>

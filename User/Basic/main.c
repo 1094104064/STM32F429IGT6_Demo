@@ -99,10 +99,12 @@ static void Demo(void)
     demo_tick_delay_printf();
 #endif
 
-#if 1
+#if 0
     demo_task_printf();
 #endif
     
+    core_swiic_init();
+    core_swiic_delay_test();
 }
 
 

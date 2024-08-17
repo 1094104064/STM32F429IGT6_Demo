@@ -16,7 +16,9 @@
         "core_gpio.h": "c",
         "bsp_ioled.h": "c",
         "bsp_tick.h": "c",
-        "demo.h": "c"
+        "demo.h": "c",
+        "bsp_i2c.h": "c",
+        "core_swiic.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

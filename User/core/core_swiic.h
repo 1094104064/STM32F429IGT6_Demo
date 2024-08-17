@@ -1,15 +1,15 @@
 /**
   ******************************************************************************
   *
-  * @file    bsp.h
+  * @file    core_swiic.h
   * @author  GarMing
-  * @brief   Header file of bsp module.
+  * @brief   Header file of core_swiic module.
   *
   ******************************************************************************
   **/
   
-#ifndef _BSP_H
-#define _BSP_H
+#ifndef _CORE_SWIIC_H
+#define _CORE_SWIIC_H
 
 
 #ifdef __cplusplus
@@ -19,22 +19,7 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-#include "core_gpio.h"
-#include "core_systick.h"
-#include "core_usart1.h"
-#include "core_swiic.h"
-#include "core_hwiic.h"
-    
-#include "bsp_ioled.h"
-#include "bsp_tick.h"
-#include "bsp_console.h"
-#include "bsp_task.h"
-#include "bsp_beep.h"
-#include "bsp_bmp180.h"
-#include "bsp_w25qxx.h"
-#include "bsp_st7735.h"
-#include "bsp_task.h"
-#include "bsp_i2c.h"
+#include "stm32f4xx.h"
 /*********************
  *      DEFINES
  *********************/
@@ -45,8 +30,10 @@ extern "C" {
  
 /**********************
 *  GLOBAL PROTOTYPES
-**********************/
-int8_t bsp_init(void);
+ **********************/
+int8_t core_swiic_init(void);
+int8_t core_swiic_deinit(void);
+void   core_swiic_delay_test(void);
 /**********************
  *      MACROS
  **********************/
@@ -57,7 +44,7 @@ int8_t bsp_init(void);
 }
 #endif
 
-#endif /*_BSP_H*/
+#endif /*_CORE_SWIIC_H*/
 
 
 /******************************* (END OF FILE) *********************************/

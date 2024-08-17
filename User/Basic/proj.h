@@ -25,11 +25,6 @@
 #include "log.h"
 #include "bsp.h"
 
-
-#include "core_gpio.h"
-#include "core_systick.h"
-#include "core_usart1.h"
-
 /*********************
  *      DEFINES
  *********************/
