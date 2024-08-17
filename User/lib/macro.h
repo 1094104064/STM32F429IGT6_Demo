@@ -1,38 +1,35 @@
 /**
   ******************************************************************************
   *
-  * @file    proj.h
+  * @file    macro.h
   * @author  GarMing
-  * @brief   Include all project related headers.
+  * @brief   Header file of macro module.
   *
   ******************************************************************************
   **/
   
-#ifndef _PROJ_H
-#define _PROJ_H
+#ifndef _MACRO_H
+#define _MACRO_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-/***************************
- * CURRENT VERSION OF PROJ
- ***************************/
-#define PROJ_VERSION_MAJOR 0
-#define PROJ_VERSION_MINOR 1
-#define PROJ_VERSION_PATCH 0
-#define PROJ_VERSION_INFO ""
 /*********************
  *      INCLUDES
  *********************/
-#include "log.h"
-#include "bsp.h"
-
-
-#include "core_gpio.h"
-#include "core_systick.h"
-#include "core_usart1.h"
-
+#include <stdint.h>
 /*********************
  *      DEFINES
  *********************/
+
+#define REG8(x)         (*((volatile uint8_t  *)(x)))
+#define REG16(x)        (*((volatile uint16_t *)(x)))
+#define REG32(x)        (*((volatile uint32_t *)(x)))
+
+#define ARRAY_SIZE(x)   (sizeof(x) / sizeof((x)[0]))
+
+
 
 /**********************
  *      TYPEDEFS
@@ -46,7 +43,12 @@
  *      MACROS
  **********************/
 
-#endif /*_PROJ_H*/
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*_MACRO_H*/
 
 
 /******************************* (END OF FILE) *********************************/

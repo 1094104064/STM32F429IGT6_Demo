@@ -17,6 +17,7 @@
  *      INCLUDES
  *********************/
 #include "proj.h"
+#include "demo.h"
 /*********************
  *      DEFINES
  *********************/
@@ -29,8 +30,8 @@
  *  STATIC PROTOTYPES
  **********************/
 static void Init(void);
-static void Proj(void);
-static void Config(void);
+static void Info(void);
+static void Demo(void);
 static void Loop(void);
 /**********************
  *  STATIC VARIABLES
@@ -52,8 +53,8 @@ static void Loop(void);
 int main(void)
 {	
     Init();
-    Proj();
-    Config();
+    Info();
+    Demo();
     Loop();
     
     return 0;
@@ -70,8 +71,7 @@ int main(void)
   */
 static void Init(void)
 {
-    dev_console_init(DEV_CONSOLE_BAUD_HIGH);
-    dev_systick_init(DEV_SYSTICK_PERIOD_SLOW);
+    bsp_init();
 }
 
 /**
@@ -79,12 +79,30 @@ static void Init(void)
   * @param  None
   * @retval NULL
   */
-static void Config(void)
+static void Demo(void)
 {
-    
-    ex_task_1();
+    LOG_USER("Running!");
 
-    LOG_USER("Completed!");
+#if 0
+    demo_ioled_flash_light();
+#endif
+
+#if 0
+    demo_ioled_grad_light();
+#endif
+
+#if 0
+    demo_console_receive();
+#endif
+
+#if 0
+    demo_tick_delay_printf();
+#endif
+
+#if 1
+    demo_task_printf();
+#endif
+    
 }
 
 
@@ -97,7 +115,7 @@ static void Config(void)
 static void Loop(void)
 {
     for(;;) {
-        bsp_task_handler();
+
     }
 }
 
@@ -107,7 +125,7 @@ static void Loop(void)
   * @param  None
   * @retval NULL
   */
-static void Proj(void)
+static void Info(void)
 {
     printf("\r\n");
     printf("\r\n");

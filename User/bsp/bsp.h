@@ -1,35 +1,38 @@
 /**
   ******************************************************************************
   *
-  * @file    proj.h
+  * @file    bsp.h
   * @author  GarMing
-  * @brief   Include all project related headers.
+  * @brief   Header file of bsp module.
   *
   ******************************************************************************
   **/
   
-#ifndef _PROJ_H
-#define _PROJ_H
+#ifndef _BSP_H
+#define _BSP_H
 
 
-/***************************
- * CURRENT VERSION OF PROJ
- ***************************/
-#define PROJ_VERSION_MAJOR 0
-#define PROJ_VERSION_MINOR 1
-#define PROJ_VERSION_PATCH 0
-#define PROJ_VERSION_INFO ""
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*********************
  *      INCLUDES
  *********************/
-#include "log.h"
-#include "bsp.h"
-
-
 #include "core_gpio.h"
 #include "core_systick.h"
 #include "core_usart1.h"
-
+    
+#include "bsp_ioled.h"
+#include "bsp_tick.h"
+#include "bsp_console.h"
+#include "bsp_task.h"
+#include "bsp_beep.h"
+#include "bsp_bmp180.h"
+#include "bsp_w25qxx.h"
+#include "bsp_st7735.h"
+#include "bsp_task.h"
+#include "bsp_i2c.h"
 /*********************
  *      DEFINES
  *********************/
@@ -39,14 +42,20 @@
  **********************/
  
 /**********************
-* GLOBAL PROTOTYPES
+*  GLOBAL PROTOTYPES
 **********************/
-
+int8_t bsp_init(void);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_PROJ_H*/
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*_BSP_H*/
 
 
 /******************************* (END OF FILE) *********************************/

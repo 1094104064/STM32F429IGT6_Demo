@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   *
-  * @file    ex_systick_1.c
+  * @file    demo_console_receive.c
   * @author  GarMing
   * @brief   
   *
@@ -41,12 +41,17 @@
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
-void ex_systick_1(void)
+void demo_console_receive(void)
 {
-    uint32_t ticks = dev_systick_count_sec();
+    bsp_console_t serial_port;
 
-    if(ticks) {
-        LOG_INFO("ticks = %d", ticks / 1000);
+    bsp_console_init( &serial_port,
+                      core_usart1_init,
+                      core_usart1_deinit,
+                      core_usart1_receive_cb );
+
+    for(;;) {
+        serial_port.rec_cb();
     }
 }
 /**********************

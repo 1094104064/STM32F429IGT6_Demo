@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   *
-  * @file    ex_console_1.c
+  * @file    bsp_w25qxx.c
   * @author  GarMing
   * @brief   
   *
@@ -17,7 +17,7 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "proj.h"
+#include "bsp_w25qxx.h"
 /**********************
  *      MACROS
  **********************/
@@ -29,7 +29,7 @@
 /**********************
  *   GLOBAL VARIABLES
  **********************/ 
-extern dev_console_t g_ConsoleRecInfo;
+
 /**********************
  *  STATIC PROTOTYPES
  **********************/
@@ -41,26 +41,73 @@ extern dev_console_t g_ConsoleRecInfo;
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
-void ex_console_1(void)
+int bsp_w25qxx_init(void)
 {
-    /*!< Data reception completed */
-    if(g_ConsoleRecInfo.rec_flg == 1) {	
-		
-        printf("[ %s ]:  ", __func__);
-        /*!< Send the received data */
-        for(uint16_t i = 0; i <= g_ConsoleRecInfo.rec_cnt; i++) {
-            
-            /*!< Send single byte */
-            USART_SendData(USART1, g_ConsoleRecInfo.rec_buf[i]);  
-            
-            /*!< Waiting for sending to complete */
-            while(USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);			
-        }		
-        
-        /*!< Completion of sending */
-        g_ConsoleRecInfo.rec_flg = 0;
-    }
+    
 }
+
+int bsp_w25qxx_read_device_id(void)
+{
+    
+}
+
+int bsp_w25qxx_write_enable()
+{
+    
+}
+
+
+int bsp_w25qxx_wait_for_write_end()
+{
+    
+    
+}
+
+
+int bsp_w25qxx_erase_sector()
+{
+    
+}
+
+
+int bsp_w25qxx_erase_block_32()
+{
+    
+}
+
+
+int bsp_w25qxx_erase_block_64()
+{
+    
+    
+}
+
+
+int bsp_w25qxx_erase_chip()
+{
+    
+}
+
+
+int bsp_w25qxx_page_program()
+{
+    
+}
+
+
+int bsp_w25qxx_write_buf()
+{
+    
+}
+
+int bsp_w25qxx_read_buf()
+{
+    
+}
+
+
+
+
 /**********************
  *   STATIC FUNCTIONS
  **********************/

@@ -1,15 +1,20 @@
 /**
   ******************************************************************************
   *
-  * @file    examples.h
+  * @file    bsp_st7735.h
   * @author  GarMing
-  * @brief   
+  * @brief   Header file of bsp_st7735 module.
   *
   ******************************************************************************
   **/
   
-#ifndef _EXAMPLES_H
-#define _EXAMPLES_H
+#ifndef _BSP_ST7735_H
+#define _BSP_ST7735_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*********************
  *      INCLUDES
@@ -26,16 +31,18 @@
 /**********************
 * GLOBAL PROTOTYPES
 **********************/
-void ex_console_1(void);
 
-void ex_systick_1(void);
-
-void ex_task_1(void);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_EXAMPLES_H*/
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*_BSP_ST7735_H*/
 
 
 /******************************* (END OF FILE) *********************************/

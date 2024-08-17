@@ -1,34 +1,19 @@
 /**
   ******************************************************************************
   *
-  * @file    proj.h
+  * @file    demo.h
   * @author  GarMing
-  * @brief   Include all project related headers.
+  * @brief   
   *
   ******************************************************************************
   **/
   
-#ifndef _PROJ_H
-#define _PROJ_H
+#ifndef _DEMO_H
+#define _DEMO_H
 
-
-/***************************
- * CURRENT VERSION OF PROJ
- ***************************/
-#define PROJ_VERSION_MAJOR 0
-#define PROJ_VERSION_MINOR 1
-#define PROJ_VERSION_PATCH 0
-#define PROJ_VERSION_INFO ""
 /*********************
  *      INCLUDES
  *********************/
-#include "log.h"
-#include "bsp.h"
-
-
-#include "core_gpio.h"
-#include "core_systick.h"
-#include "core_usart1.h"
 
 /*********************
  *      DEFINES
@@ -39,14 +24,18 @@
  **********************/
  
 /**********************
-* GLOBAL PROTOTYPES
-**********************/
-
+*  GLOBAL PROTOTYPES
+ **********************/
+void demo_ioled_flash_light(void);
+void demo_ioled_grad_light(void);
+void demo_console_receive(void);
+void demo_tick_delay_printf(void);
+void demo_task_printf(void);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_PROJ_H*/
+#endif /*_DEMO_H*/
 
 
 /******************************* (END OF FILE) *********************************/

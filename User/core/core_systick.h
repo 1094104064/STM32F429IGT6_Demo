@@ -1,20 +1,25 @@
 /**
   ******************************************************************************
   *
-  * @file    bsp_led.h
+  * @file    core_systick.h
   * @author  GarMing
-  * @brief   Header file of bsp_led module.
+  * @brief   Header file of template module.
   *
   ******************************************************************************
   **/
   
-#ifndef _BSP_LED_H
-#define _BSP_LED_H
+#ifndef _CORE_SYSTICK_H
+#define _CORE_SYSTICK_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*********************
  *      INCLUDES
  *********************/
-#include <stdint.h>
+#include "stm32f4xx.h"
 /*********************
  *      DEFINES
  *********************/
@@ -24,14 +29,23 @@
  **********************/
  
 /**********************
-* GLOBAL PROTOTYPES
-**********************/
-
+*  GLOBAL PROTOTYPES
+ **********************/
+void core_systick_init(void);
+uint32_t core_systick_get_ticks(void);
+void core_systick_delay_ms(uint32_t nms);
+void core_systick_inc(uint32_t nms);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_BSP_LED_H*/
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*_CORE_SYSTICK_H*/
 
 
 /******************************* (END OF FILE) *********************************/

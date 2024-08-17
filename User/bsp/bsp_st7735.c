@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   *
-  * @file    dev_systick.c
+  * @file    bsp_st7735.c
   * @author  GarMing
   * @brief   
   *
@@ -17,7 +17,7 @@
 /*********************
  *      INCLUDES
  *********************/
-#include "dev_systick.h"
+#include "bsp_st7735.h"
 /**********************
  *      MACROS
  **********************/
@@ -25,7 +25,7 @@
 /*********************
  *      DEFINES
  *********************/
-#define SYSCLK  SystemCoreClock
+
 /**********************
  *   GLOBAL VARIABLES
  **********************/ 
@@ -37,46 +37,115 @@
 /**********************
  *  STATIC VARIABLES
  **********************/
-static volatile uint32_t s_ElapsTicks; 
+
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
-void dev_systick_init(uint32_t period)
+ 
+
+int bsp_st7735_init()
 {
-    SysTick_Config(SYSCLK / period);
+
 }
 
-uint32_t dev_systick_get_ticks(void)
-{
-    return s_ElapsTicks;
-}
 
-void dev_systick_delay_ms(uint32_t ms)
+int bsp_st7735_send_byte()
 {
-    uint32_t act_time = dev_systick_get_ticks();
     
-    while((dev_systick_get_ticks() - act_time) < ms);
 }
 
-uint32_t dev_systick_count_sec(void)
+
+int bsp_st7735_write_cmd()
 {
-    if(!(s_ElapsTicks % 1000)) {
-        return s_ElapsTicks;
-    }
-    return 0;
+    
 }
 
-void dev_systick_inc(uint32_t millis)
+
+int bsp_st7735_write_8bit_data()
 {
-    s_ElapsTicks += millis;
+    
 }
+
+
+int bsp_st7735_write_16bit_data()
+{
+    
+}
+
+
+int bsp_st7735_write_buf()
+{
+    
+}
+
+
+int bsp_st7735_set_reg()
+{
+    
+}
+
+
+int bsp_st7735_set_cursor()
+{
+    
+}
+
+int bsp_st7735_set_window()
+{
+    
+}
+
+
+int bsp_st7735_draw_point()
+{
+    
+}
+
+int bsp_st7735_draw_hor_line()
+{
+    
+}
+
+
+int bsp_st7735_draw_ver_line()
+{
+    
+}
+
+int bsp_st7735_draw_rect()
+{
+    
+}
+
+int bsp_st7735_draw_circle()
+{
+    
+}
+
+
+int bsp_st7735_draw_ellipse()
+{
+    
+}
+
+
+int bsp_st7735_fill_rect()
+{
+    
+}
+
+
+int bsp_st7735_fill_bg()
+{
+    
+}
+
+
+
 
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-
-
-
 
 
 /******************************* (END OF FILE) *********************************/

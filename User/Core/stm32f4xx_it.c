@@ -118,11 +118,14 @@ void PendSV_Handler(void)
 {
 }
 
-
+/**
+  * @brief  This function handles SysTick exception.
+  * @param  None
+  * @retval None
+  */
 void SysTick_Handler(void)
 {
-    dev_systick_inc(1);
-    bsp_task_inc_ticks(1);
+    core_systick_inc(1);
 }
 
 
@@ -135,8 +138,7 @@ void USART1_IRQHandler(void)
 {
     /*!< Interrupt Response */
     if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {	
-        
-        dev_console_receive_proc();
+        core_usart1_receive_proc();
     }	 	
 }
 

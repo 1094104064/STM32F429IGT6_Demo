@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F429_439xx,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\CMSIS\Include;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\User\basic;..\User\core;..\User\dev;..\User\bsp;..\User\examples</IncludePath>
+              <IncludePath>..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\CMSIS\Include;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\User\basic;..\User\core;..\User\bsp;..\User\lib;..\User\demo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -404,20 +404,20 @@
               <FileType>1</FileType>
               <FilePath>..\User\core\stm32f4xx_it.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>User/dev</GroupName>
-          <Files>
             <File>
-              <FileName>dev_console.c</FileName>
+              <FileName>core_gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\dev\dev_console.c</FilePath>
+              <FilePath>..\User\core\core_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>dev_systick.c</FileName>
+              <FileName>core_systick.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\dev\dev_systick.c</FilePath>
+              <FilePath>..\User\core\core_systick.c</FilePath>
+            </File>
+            <File>
+              <FileName>core_usart1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\core\core_usart1.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -425,9 +425,24 @@
           <GroupName>User/bsp</GroupName>
           <Files>
             <File>
-              <FileName>bsp_led.c</FileName>
+              <FileName>bsp.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\bsp\bsp_led.c</FilePath>
+              <FilePath>..\User\bsp\bsp.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_ioled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_ioled.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_tick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_tick.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_console.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_console.c</FilePath>
             </File>
             <File>
               <FileName>bsp_task.c</FileName>
@@ -452,22 +467,32 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/examples</GroupName>
+          <GroupName>User/demo</GroupName>
           <Files>
             <File>
-              <FileName>ex_console_1.c</FileName>
+              <FileName>demo_ioled_flash_light.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\examples\ex_console_1.c</FilePath>
+              <FilePath>..\User\demo\demo_ioled_flash_light.c</FilePath>
             </File>
             <File>
-              <FileName>ex_systick_1.c</FileName>
+              <FileName>demo_ioled_grad_light.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\examples\ex_systick_1.c</FilePath>
+              <FilePath>..\User\demo\demo_ioled_grad_light.c</FilePath>
             </File>
             <File>
-              <FileName>ex_task_1.c</FileName>
+              <FileName>demo_console_receive.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\examples\ex_task_1.c</FilePath>
+              <FilePath>..\User\demo\demo_console_receive.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_tick_delay_printf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\demo\demo_tick_delay_printf.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_task_printf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\demo\demo_task_printf.c</FilePath>
             </File>
           </Files>
         </Group>

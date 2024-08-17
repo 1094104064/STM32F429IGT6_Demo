@@ -9,7 +9,14 @@
         "bsp_led.h": "c",
         "bsp_ringbuf.h": "c",
         "alg_ringbuf.h": "c",
-        "bsp_task.h": "c"
+        "bsp_task.h": "c",
+        "macro.h": "c",
+        "dev_led.h": "c",
+        "core_usart1.h": "c",
+        "core_gpio.h": "c",
+        "bsp_ioled.h": "c",
+        "bsp_tick.h": "c",
+        "demo.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

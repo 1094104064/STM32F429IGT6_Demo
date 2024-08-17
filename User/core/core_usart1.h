@@ -1,20 +1,24 @@
 /**
   ******************************************************************************
   *
-  * @file    dev_systick.h
+  * @file    core_usart1.h
   * @author  GarMing
-  * @brief   Header file of dev_systick module.
+  * @brief   Header file of template module.
   *
   ******************************************************************************
   **/
   
-#ifndef _DEV_SYSTICK_H
-#define _DEV_SYSTICK_H
+#ifndef _CORE_USART1_H
+#define _CORE_USART1_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*********************
  *      INCLUDES
  *********************/
- #include <stdint.h>
 #include "stm32f4xx.h"
 /*********************
  *      DEFINES
@@ -23,25 +27,25 @@
 /**********************
  *      TYPEDEFS
  **********************/
-
-enum {
-    DEV_SYSTICK_PERIOD_SLOW     = 1000,
-    DEV_SYSTICK_PERIOD_FAST     = 1000000
-};
-
+ 
 /**********************
-* GLOBAL PROTOTYPES
-**********************/
-void     dev_systick_init(uint32_t period);
-uint32_t dev_systick_get_ticks(void);
-void     dev_systick_delay_ms(uint32_t ms);
-uint32_t dev_systick_count_sec(void);
-void     dev_systick_inc(uint32_t millis);
+*  GLOBAL PROTOTYPES
+ **********************/
+int8_t  core_usart1_init(void);
+int8_t  core_usart1_deinit(void);
+void    core_usart1_receive_proc(void);
+void    core_usart1_receive_cb(void);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_DEV_SYSTICK_H*/
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*_CORE_USART1_H*/
 
 
 /******************************* (END OF FILE) *********************************/

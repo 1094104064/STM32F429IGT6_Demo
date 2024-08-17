@@ -55,30 +55,16 @@ void _ttywrch(int ch)
     ch = ch;
 }
 
-/**
-  * @brief  调度器心跳
-  * @param  millis: 心跳周期
-  * @retval NULL
-  */
-void bsp_task_inc_ticks(uint32_t millis)
+void bsp_task_tick_init( bsp_task_class_t * self,
+                         void     (* pf_init)(void),
+                         void     (* pf_deinit)(void),
+                         uint32_t (* pf_get_beat)(void) )
 {
-    s_SysElapsTime += millis;
+    self->hearbeat_interface.init      = pf_init;
+    self->hearbeat_interface.deinit    = pf_deinit;
+    self->hearbeat_interface.get_beat  = pf_get_beat;
 }
 
-/**
-  * @brief  获取任务调度器当前已运行时间
-  * @param  None
-  * @retval 时间数值
-  */
-uint32_t bsp_task_get_ticks(void)
-{
-    return s_SysElapsTime;
-}
-
-void bsp_task_init_time(void)
-{
-    s_SysElapsTime = 0;
-}
 
 /**
   * @brief  初始化任务列表
@@ -335,16 +321,16 @@ int bsp_task_set_period(bsp_task_cb_f pFunc, uint32_t period_ms)
   * @param  无
   * @retval CPU占用率，0~100%
   */
-float bsp_task_get_cpu_usage(void)
+float bsp_task_get_cpu_usage(bsp_task_class_t * self)
 {
     static uint32_t start_time;
 
-    float usage = (float)s_TasksUsageTime / (bsp_task_get_ticks() - start_time) * 100.0f;
-
+    float usage = (float)s_TasksUsageTime / (self->hearbeat_interface.get_beat() - start_time) * 100.0f;
+    
     if(usage > 100.0f) usage = 100.0f;
 
-    start_time = bsp_task_get_ticks();
-
+    start_time = self->hearbeat_interface.get_beat();
+    
     s_TasksUsageTime = 0;
 
     return usage;
@@ -371,9 +357,9 @@ uint32_t bsp_task_get_time_cost(bsp_task_cb_f pFunc)
   * @param  tick:提供一个精确到毫秒的系统时钟变量
   * @retval 无
   */
-void bsp_task_handler(void)
+void bsp_task_handler(bsp_task_class_t * self)
 {
-    uint32_t ticks = bsp_task_get_ticks();
+    uint32_t ticks = self->hearbeat_interface.get_beat();
     
     bsp_task_t * pTask = s_pHeadTask;
     
@@ -399,13 +385,13 @@ void bsp_task_handler(void)
                 pTask->time_prev = ticks;
                 
                 /*!< 记录开始时间 */
-                uint32_t start_time = bsp_task_get_ticks();
+                uint32_t start_time = self->hearbeat_interface.get_beat();
                 
                 /*!< 执行任务 */
                 pTask->pCallback();
                 
                 /*!< 获取执行时间 */
-                uint32_t time_cost = bsp_task_get_ticks() - start_time;
+                uint32_t time_cost = self->hearbeat_interface.get_beat() - start_time;
                 
                 /*!< 记录执行时间 */
                 pTask->time_cost = time_cost;

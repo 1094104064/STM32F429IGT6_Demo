@@ -27,6 +27,19 @@
  *      TYPEDEFS
  **********************/
 
+typedef struct _bsp_task_heartbeat_interface_t {
+    void     (* init)(void);
+    void     (* deinit)(void);
+    uint32_t (* get_beat)(void);
+}bsp_task_heartbeat_interface_t;
+
+
+typedef struct _bsp_task_class_t {
+    bsp_task_heartbeat_interface_t hearbeat_interface;
+}bsp_task_class_t;
+
+
+
 typedef void (* bsp_task_cb_f)(void);
 
 typedef struct _bsp_task_t {
@@ -45,11 +58,13 @@ enum {
 };
 
 /**********************
-* GLOBAL PROTOTYPES
-**********************/
-void          bsp_task_inc_ticks(uint32_t millis);
-uint32_t      bsp_task_get_ticks(void);
-void          bsp_task_init_time(void);
+*  GLOBAL PROTOTYPES
+ **********************/
+
+void bsp_task_tick_init( bsp_task_class_t * self,
+                         void     (* pf_init)(void),
+                         void     (* pf_deinit)(void),
+                         uint32_t (* pf_get_beat)(void) );
 void          bsp_task_init_list(void);
 bsp_task_t *  bsp_task_find(bsp_task_cb_f pFunc);
 bsp_task_t *  bsp_task_register(bsp_task_cb_f pFunc, uint32_t period, uint8_t state);
@@ -58,9 +73,9 @@ bsp_task_t *  bsp_task_get_next(bsp_task_t * pHandle);
 int           bsp_task_logout(bsp_task_cb_f pFunc);
 int           bsp_task_set_state(bsp_task_cb_f pFunc, uint8_t state);
 int           bsp_task_set_period(bsp_task_cb_f pFunc, uint32_t period_ms);
-float         bsp_task_get_cpu_usage(void);
+float         bsp_task_get_cpu_usage(bsp_task_class_t * self);
 uint32_t      bsp_task_get_time_cost(bsp_task_cb_f pFunc);
-void          bsp_task_handler(void);
+void          bsp_task_handler(bsp_task_class_t * self);
 /**********************
  *      MACROS
  **********************/
