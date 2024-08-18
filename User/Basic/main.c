@@ -103,8 +103,12 @@ static void Demo(void)
     demo_task_printf();
 #endif
 
-#if 1
+#if 0
     demo_bmp180_test();
+#endif
+
+#if 1
+    demo_w25qxx_test();
 #endif
 }
 

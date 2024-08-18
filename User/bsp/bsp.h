@@ -24,6 +24,7 @@ extern "C" {
 #include "core_usart1.h"
 #include "core_swiic.h"
 #include "core_hwiic.h"
+#include "core_spi1.h"
     
 #include "bsp_ioled.h"
 #include "bsp_tick.h"

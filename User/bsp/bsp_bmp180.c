@@ -191,22 +191,22 @@ int8_t bsp_bmp180_altitude_calc(bsp_bmp180_t * self)
 
 
 int8_t bsp_bmp180_init( bsp_bmp180_t * self,
-                        int8_t  (* pf_iic_init)(void),
-                        int8_t  (* pf_iic_deinit)(void),
-                        int8_t  (* pf_iic_start)(void),
-                        int8_t  (* pf_iic_stop)(void),
-                        int8_t  (* pf_iic_send_byte)(uint8_t byte),
-                        uint8_t (* pf_iic_read_byte)(void),
-                        uint8_t (* pf_iic_wait_ack)(void),
-                        int8_t  (* pf_iic_generate_ack)(void),
+                        int8_t  (* pf_iic_init)         (void),
+                        int8_t  (* pf_iic_deinit)       (void),
+                        int8_t  (* pf_iic_start)        (void),
+                        int8_t  (* pf_iic_stop)         (void),
+                        int8_t  (* pf_iic_send_byte)    (uint8_t byte),
+                        uint8_t (* pf_iic_read_byte)    (void),
+                        uint8_t (* pf_iic_wait_ack)     (void),
+                        int8_t  (* pf_iic_generate_ack) (void),
                         int8_t  (* pf_iic_generate_nack)(void),
-                        int8_t  (* pf_iic_is_busy)(void),
-                        int8_t  (* pf_iic_write_buf)(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num),
-                        int8_t  (* pf_iic_read_buf)(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num),
+                        int8_t  (* pf_iic_is_busy)      (void),
+                        int8_t  (* pf_iic_write_buf)    (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num),
+                        int8_t  (* pf_iic_read_buf)     (uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num),
                         
-                        void    (* pf_delay_init)(void),
-                        void    (* pf_delay_us)(uint32_t nus),
-                        void    (* pf_delay_ms)(uint32_t nms) )
+                        void    (* pf_delay_init)       (void),
+                        void    (* pf_delay_us)         (uint32_t nus),
+                        void    (* pf_delay_ms)         (uint32_t nms) )
 {   
     int8_t ret = 0;
     uint8_t rec_buf[4] = {0};

@@ -20,7 +20,9 @@
         "bsp_i2c.h": "c",
         "core_swiic.h": "c",
         "core_hwiic.h": "c",
-        "bsp_bmp180.h": "c"
+        "bsp_bmp180.h": "c",
+        "bsp_w25qxx.h": "c",
+        "core_spi1.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

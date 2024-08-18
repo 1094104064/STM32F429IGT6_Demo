@@ -1,20 +1,25 @@
 /**
   ******************************************************************************
   *
-  * @file    demo.h
+  * @file    core_spi1.h
   * @author  GarMing
-  * @brief   
+  * @brief   Header file of core_spi1 module.
   *
   ******************************************************************************
   **/
   
-#ifndef _DEMO_H
-#define _DEMO_H
+#ifndef _CORE_SPI1_H
+#define _CORE_SPI1_H
+
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*********************
  *      INCLUDES
  *********************/
-
+#include "stm32f4xx.h"
 /*********************
  *      DEFINES
  *********************/
@@ -26,18 +31,22 @@
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-void demo_ioled_flash_light(void);
-void demo_ioled_grad_light(void);
-void demo_console_receive(void);
-void demo_tick_delay_printf(void);
-void demo_task_printf(void);
-void demo_bmp180_test(void);
-void demo_w25qxx_test(void);
+int8_t  core_spi1_init(void);
+int8_t  core_spi1_deinit(void);
+void    core_spi1_chip_selection_pin_high(void);
+void    core_spi1_chip_selection_pin_low(void);
+uint8_t core_spi1_send_receive_byte(uint8_t byte);
 /**********************
  *      MACROS
  **********************/
 
-#endif /*_DEMO_H*/
+
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif /*_CORE_SPI1_H*/
 
 
 /******************************* (END OF FILE) *********************************/
