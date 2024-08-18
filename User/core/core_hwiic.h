@@ -19,7 +19,7 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-
+#include "stm32f4xx.h"
 /*********************
  *      DEFINES
  *********************/
@@ -31,7 +31,15 @@ extern "C" {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-
+int8_t core_hwiic_init(void);
+int8_t core_hwiic_deinit(void);
+int8_t core_hwiic_start(void);    
+int8_t core_hwiic_stop(void);
+int8_t core_hwiic_send_byte(uint8_t byte);
+uint8_t core_hwiic_read_byte(uint8_t byte);
+uint8_t core_hwiic_wait_ack(void);
+int8_t core_hwiic_generate_ack(void);
+int8_t core_hwiic_generate_nack(void);
 /**********************
  *      MACROS
  **********************/

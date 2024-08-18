@@ -31,9 +31,17 @@ extern "C" {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-int8_t core_swiic_init(void);
-int8_t core_swiic_deinit(void);
-void   core_swiic_delay_test(void);
+int8_t  core_swiic_init(void);
+int8_t  core_swiic_deinit(void);
+void    core_swiic_delay_test(void);
+int8_t  core_swiic_start(void);
+int8_t  core_swiic_stop(void);
+int8_t  core_swiic_send_byte(uint8_t byte);
+uint8_t core_swiic_read_byte(void);
+uint8_t core_swiic_wait_ack(void);
+int8_t  core_swiic_generate_ack(void);
+int8_t  core_swiic_generate_nack(void);
+
 /**********************
  *      MACROS
  **********************/
