@@ -31,6 +31,7 @@ void demo_ioled_grad_light(void);
 void demo_console_receive(void);
 void demo_tick_delay_printf(void);
 void demo_task_printf(void);
+void demo_bmp180_test(void);
 /**********************
  *      MACROS
  **********************/

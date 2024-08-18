@@ -19,7 +19,8 @@
         "demo.h": "c",
         "bsp_i2c.h": "c",
         "core_swiic.h": "c",
-        "core_hwiic.h": "c"
+        "core_hwiic.h": "c",
+        "bsp_bmp180.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

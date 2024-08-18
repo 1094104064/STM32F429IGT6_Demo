@@ -51,6 +51,7 @@
  *  STATIC PROTOTYPES
  **********************/
 static int8_t _core_is_sda_1(void);
+static int8_t _core_is_scl_1(void);
 /**********************
  *  STATIC VARIABLES
  **********************/
@@ -210,6 +211,68 @@ int8_t core_swiic_generate_nack(void)
     return 0;
 }
 
+int8_t core_swiic_is_busy(void)
+{
+    uint32_t ticks = 0;
+
+    while (_core_is_sda_1() || _core_is_scl_1()) {
+        
+        if(ticks >= 1000 * 48000) return -1;
+        ticks++;
+    }
+
+    return 0;
+}
+
+int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num)
+{
+    core_swiic_start();
+
+    core_swiic_send_byte(dev_addr);
+    while(core_swiic_wait_ack());
+
+    core_swiic_send_byte(reg_addr);
+    while(core_swiic_wait_ack());
+
+    for(uint32_t i = 0; i < byte_num; i++) {
+        core_swiic_send_byte(*pbuf);
+        while(core_swiic_wait_ack());
+        pbuf++;
+    }
+
+    core_swiic_stop();
+
+    return 0;
+}
+
+int8_t core_swiic_buf_read(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num)
+{
+    core_swiic_start();
+
+    core_swiic_send_byte(dev_addr);
+    while(core_swiic_wait_ack());
+
+    core_swiic_send_byte(reg_addr);
+    while(core_swiic_wait_ack());
+
+    core_swiic_start();
+    core_swiic_send_byte(dev_addr + 1);
+    while(core_swiic_wait_ack());
+
+    for(uint32_t i = 0; i < (byte_num - 1); i++){
+        *pbuf = core_swiic_read_byte();
+        pbuf++;
+    }
+
+    *pbuf = core_swiic_read_byte();
+    core_swiic_generate_nack();
+
+    core_swiic_stop();
+
+    return 0;
+}
+
+
 /**********************
  *   STATIC FUNCTIONS
  **********************/
@@ -224,6 +287,14 @@ static int8_t _core_is_sda_1(void)
         return 1;
     else 
         return 0;    
+}
+
+static int8_t _core_is_scl_1(void)
+{
+    if((IIC_PORT->IDR & IIC_SCL_PIN) != 0) 
+        return 1;
+    else 
+        return 0;  
 }
 
 /******************************* (END OF FILE) *********************************/

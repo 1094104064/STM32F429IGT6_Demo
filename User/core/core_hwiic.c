@@ -32,7 +32,7 @@
 #define IIC_SDA_PIN     GPIO_Pin_7
 #define IIC_SDA_PIN_SRC GPIO_PinSource7
 
-#define IIC_TIMEOUT_1S  1000 * 48000     
+#define IIC_TIMEOUT_1S  1000 * 4800     
 /*********************
  *      DEFINES
  *********************/
@@ -132,12 +132,6 @@ int8_t core_hwiic_stop(void)
     /*!< Generate a STOP condition */
     I2C_GenerateSTOP(IIC, ENABLE);
 
-    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY)) {
-
-        if(ticks >= IIC_TIMEOUT_1S) return -1;
-        ticks++;
-    };
-
     return 0;
 }
 
@@ -149,18 +143,9 @@ int8_t core_hwiic_stop(void)
   */
 int8_t core_hwiic_send_byte(uint8_t byte)
 {
-    uint32_t ticks = 0;
-
     I2C_SendData(IIC, byte);
 
-    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS) {
-
-        if(ticks >= IIC_TIMEOUT_1S) return -1;
-        ticks++;
-    };
-
-    return 0;
-    
+    return 0;    
 }
 
 /**
@@ -168,8 +153,16 @@ int8_t core_hwiic_send_byte(uint8_t byte)
   * @param  I2Cx: i2c peripheral
   * @retval 8bit data
   */
-uint8_t core_hwiic_read_byte(uint8_t byte)
+uint8_t core_hwiic_read_byte(void)
 {
+    uint32_t ticks = 0;
+
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_RECEIVED) != SUCCESS) {
+
+        if(ticks >= IIC_TIMEOUT_1S) return 1;
+        ticks++;
+    };
+
     return I2C_ReceiveData(IIC);
 }
 
@@ -212,6 +205,83 @@ int8_t core_hwiic_generate_nack(void)
     return 0;
 }
 
+
+int8_t core_hwiic_is_busy(void)
+{   
+    uint32_t ticks = 0;
+
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY)) {
+
+        if(ticks >= IIC_TIMEOUT_1S) return -1;
+        ticks++;
+    };
+
+    return 0;
+}
+
+int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num)
+{
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+
+    I2C_GenerateSTART(IIC, ENABLE);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS);
+
+    I2C_Send7bitAddress(IIC, dev_addr, I2C_Direction_Transmitter);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) != SUCCESS);
+
+    I2C_SendData(IIC, reg_addr);
+    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);
+
+    for(uint32_t i = 0; i < byte_num; i++) {
+        I2C_SendData(IIC, *pbuf);
+        while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);    
+        pbuf++;
+    }
+
+    I2C_GenerateSTOP(IIC, ENABLE);
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+
+    return 0;
+}
+
+
+int8_t core_hwiic_buf_read(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num)
+{
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+
+    I2C_GenerateSTART(IIC, ENABLE);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS);
+
+    I2C_Send7bitAddress(IIC, dev_addr, I2C_Direction_Transmitter);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) != SUCCESS);
+
+    I2C_SendData(IIC, reg_addr);
+    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);
+
+    I2C_GenerateSTOP(IIC, ENABLE);
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+
+    I2C_GenerateSTART(IIC, ENABLE);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS);
+
+    I2C_Send7bitAddress(IIC, dev_addr + 1, I2C_Direction_Receiver);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) != SUCCESS);
+
+    while(byte_num--) {
+        if(byte_num == 0) {
+            I2C_AcknowledgeConfig(IIC, DISABLE);
+            I2C_GenerateSTOP(IIC, ENABLE);
+        }
+
+        while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_RECEIVED) != SUCCESS);
+        *pbuf = I2C_ReceiveData(IIC);
+        pbuf++;
+    }
+
+    I2C_AcknowledgeConfig(IIC, ENABLE);
+
+    return 0;
+}
 
 /**********************
  *   STATIC FUNCTIONS

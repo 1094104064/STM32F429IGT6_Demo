@@ -509,6 +509,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\demo\demo_task_printf.c</FilePath>
             </File>
+            <File>
+              <FileName>demo_bmp180_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\demo\demo_bmp180_test.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
