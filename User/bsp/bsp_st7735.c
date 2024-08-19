@@ -41,106 +41,102 @@
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
- 
 
-int bsp_st7735_init()
+int8_t bsp_st7735_send_byte()
 {
-
+    return 0;
 }
 
 
-int bsp_st7735_send_byte()
+int8_t bsp_st7735_write_cmd()
 {
-    
+    return 0;
 }
 
 
-int bsp_st7735_write_cmd()
+int8_t bsp_st7735_write_8bit_data()
 {
-    
+    return 0;
 }
 
 
-int bsp_st7735_write_8bit_data()
+int8_t bsp_st7735_write_16bit_data()
 {
-    
+    return 0;
 }
 
 
-int bsp_st7735_write_16bit_data()
+int8_t bsp_st7735_write_buf()
 {
-    
+    return 0;
 }
 
 
-int bsp_st7735_write_buf()
+int8_t bsp_st7735_set_reg()
 {
-    
+    return 0;
 }
 
 
-int bsp_st7735_set_reg()
+int8_t bsp_st7735_set_cursor()
 {
-    
+    return 0;
+}
+
+int8_t bsp_st7735_set_window()
+{
+    return 0;
 }
 
 
-int bsp_st7735_set_cursor()
+int8_t bsp_st7735_draw_point8_t()
 {
-    
+    return 0;
 }
 
-int bsp_st7735_set_window()
+int8_t bsp_st7735_draw_hor_line()
 {
-    
-}
-
-
-int bsp_st7735_draw_point()
-{
-    
-}
-
-int bsp_st7735_draw_hor_line()
-{
-    
+    return 0;
 }
 
 
-int bsp_st7735_draw_ver_line()
+int8_t bsp_st7735_draw_ver_line()
 {
-    
+    return 0;
 }
 
-int bsp_st7735_draw_rect()
+int8_t bsp_st7735_draw_rect()
 {
-    
+    return 0;
 }
 
-int bsp_st7735_draw_circle()
+int8_t bsp_st7735_draw_circle()
 {
-    
-}
-
-
-int bsp_st7735_draw_ellipse()
-{
-    
+    return 0;
 }
 
 
-int bsp_st7735_fill_rect()
+int8_t bsp_st7735_draw_ellipse()
 {
-    
+    return 0;
 }
 
 
-int bsp_st7735_fill_bg()
+int8_t bsp_st7735_fill_rect()
 {
-    
+    return 0;
 }
 
 
+int8_t bsp_st7735_fill_bg()
+{
+    return 0;
+}
+
+int8_t bsp_st7735_init()
+{
+    return 0;
+}
 
 
 /**********************

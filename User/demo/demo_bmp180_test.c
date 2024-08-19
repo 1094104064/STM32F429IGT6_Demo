@@ -50,40 +50,28 @@ void demo_bmp180_test(void)
 #if SW_IIC
     ret = bsp_bmp180_init( &dev_bmp180,
                              core_swiic_init,
-                             core_swiic_deinit,
-                             core_swiic_start,
-                             core_swiic_stop,
-                             core_swiic_send_byte,
-                             core_swiic_read_byte,
-                             core_swiic_wait_ack,
-                             core_swiic_generate_ack,
-                             core_swiic_generate_nack,
-                             core_swiic_is_busy, 
+                             core_swiic_deinit, 
                              core_swiic_buf_write,
                              core_swiic_buf_read,
-    
+
+                             core_usart1_print,
+
                              core_systick_init,
                              core_systick_delay_ms,
-                             core_systick_delay_ms );    
+                             core_systick_delay_us );    
 
 #else 
    ret = bsp_bmp180_init( &dev_bmp180,
                             core_hwiic_init,
                             core_hwiic_deinit,
-                            core_hwiic_start,
-                            core_hwiic_stop,
-                            core_hwiic_send_byte,
-                            core_hwiic_read_byte,
-                            core_hwiic_wait_ack,
-                            core_hwiic_generate_ack,
-                            core_hwiic_generate_nack,
-                            core_hwiic_is_busy, 
                             core_hwiic_buf_write,
                             core_hwiic_buf_read,
 
+                            core_usart1_print,
+
                             core_systick_init,
                             core_systick_delay_ms,
-                            core_systick_delay_ms );
+                            core_systick_delay_us );
 
 #endif
 
@@ -126,8 +114,9 @@ void demo_bmp180_test(void)
         LOG_INFO("atmosphere = %.2f", dev_bmp180.calculated_value.atmosphere);
         LOG_INFO("altitude = %.2f", dev_bmp180.calculated_value.altitude);
 
-        dev_bmp180.delay_interface.delay_ms(1000);
+        dev_bmp180.delay_interface.delay_ms(2000);
     }
+
 }
 /**********************
  *   STATIC FUNCTIONS

@@ -140,6 +140,17 @@ uint8_t core_spi1_send_receive_byte(uint8_t byte)
 	return SPI_I2S_ReceiveData(SPI1);
 }
 
+int8_t core_spi1_send_byte(uint8_t byte)
+{
+    while((SPI1->SR & SPI_I2S_FLAG_BSY) != RESET); 		
+    SPI1->DR = (byte);		                   
+    while( (SPI1->SR & SPI_I2S_FLAG_TXE) == 0);		
+    while( (SPI1->SR & SPI_I2S_FLAG_BSY) != RESET);	
+
+    return 0;
+}
+
+
 /**********************
  *   STATIC FUNCTIONS
  **********************/

@@ -224,7 +224,7 @@ int8_t core_swiic_is_busy(void)
     return 0;
 }
 
-int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num)
+int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
     core_swiic_start();
 
@@ -234,7 +234,7 @@ int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
     core_swiic_send_byte(reg_addr);
     while(core_swiic_wait_ack());
 
-    for(uint32_t i = 0; i < byte_num; i++) {
+    for(uint32_t i = 0; i < len; i++) {
         core_swiic_send_byte(*pbuf);
         while(core_swiic_wait_ack());
         pbuf++;
@@ -245,7 +245,7 @@ int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
     return 0;
 }
 
-int8_t core_swiic_buf_read(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num)
+int8_t core_swiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
     core_swiic_start();
 
@@ -259,7 +259,7 @@ int8_t core_swiic_buf_read(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, u
     core_swiic_send_byte(dev_addr + 1);
     while(core_swiic_wait_ack());
 
-    for(uint32_t i = 0; i < (byte_num - 1); i++){
+    for(uint32_t i = 0; i < (len - 1); i++){
         *pbuf = core_swiic_read_byte();
         pbuf++;
     }

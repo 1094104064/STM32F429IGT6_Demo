@@ -445,9 +445,9 @@
               <FilePath>..\User\bsp\bsp.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_ioled.c</FileName>
+              <FileName>bsp_task.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\bsp\bsp_ioled.c</FilePath>
+              <FilePath>..\User\bsp\bsp_task.c</FilePath>
             </File>
             <File>
               <FileName>bsp_tick.c</FileName>
@@ -455,14 +455,14 @@
               <FilePath>..\User\bsp\bsp_tick.c</FilePath>
             </File>
             <File>
+              <FileName>bsp_ioled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_ioled.c</FilePath>
+            </File>
+            <File>
               <FileName>bsp_console.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\bsp\bsp_console.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\bsp\bsp_task.c</FilePath>
             </File>
             <File>
               <FileName>bsp_bmp180.c</FileName>
@@ -473,6 +473,11 @@
               <FileName>bsp_w25qxx.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\bsp\bsp_w25qxx.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_st7735.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_st7735.c</FilePath>
             </File>
           </Files>
         </Group>

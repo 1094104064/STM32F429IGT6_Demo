@@ -31,10 +31,11 @@ extern "C" {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-void core_systick_init(void);
-uint32_t core_systick_get_ticks(void);
-void core_systick_delay_ms(uint32_t nms);
-void core_systick_inc(uint32_t nms);
+void        core_systick_init(void);
+uint32_t    core_systick_get_ticks(void);
+void        core_systick_delay_ms(uint32_t nms);
+void        core_systick_delay_us(uint32_t nus);
+void        core_systick_inc(uint32_t nms);
 /**********************
  *      MACROS
  **********************/

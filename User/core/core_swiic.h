@@ -42,8 +42,8 @@ uint8_t core_swiic_wait_ack(void);
 int8_t  core_swiic_generate_ack(void);
 int8_t  core_swiic_generate_nack(void);
 int8_t  core_swiic_is_busy(void);
-int8_t  core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num);
-int8_t  core_swiic_buf_read(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num);
+int8_t  core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len);
+int8_t  core_swiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len);
 /**********************
  *      MACROS
  **********************/

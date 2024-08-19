@@ -219,7 +219,7 @@ int8_t core_hwiic_is_busy(void)
     return 0;
 }
 
-int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num)
+int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
     while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
 
@@ -232,7 +232,7 @@ int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
     I2C_SendData(IIC, reg_addr);
     while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);
 
-    for(uint32_t i = 0; i < byte_num; i++) {
+    for(uint32_t i = 0; i < len; i++) {
         I2C_SendData(IIC, *pbuf);
         while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);    
         pbuf++;
@@ -245,7 +245,7 @@ int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
 }
 
 
-int8_t core_hwiic_buf_read(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num)
+int8_t core_hwiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
     while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
 
@@ -267,8 +267,8 @@ int8_t core_hwiic_buf_read(uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, u
     I2C_Send7bitAddress(IIC, dev_addr + 1, I2C_Direction_Receiver);
     while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) != SUCCESS);
 
-    while(byte_num--) {
-        if(byte_num == 0) {
+    while(len--) {
+        if(len == 0) {
             I2C_AcknowledgeConfig(IIC, DISABLE);
             I2C_GenerateSTOP(IIC, ENABLE);
         }

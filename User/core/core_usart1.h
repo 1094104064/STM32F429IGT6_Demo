@@ -20,6 +20,7 @@ extern "C" {
  *      INCLUDES
  *********************/
 #include <stdio.h>
+#include <stdarg.h>
 #include "stm32f4xx.h"
 
 /*********************
@@ -37,6 +38,7 @@ int8_t  core_usart1_init(void);
 int8_t  core_usart1_deinit(void);
 void    core_usart1_receive_proc(void);
 void    core_usart1_receive_cb(void);
+void    core_usart1_print(const char * const fmt, ...);
 /**********************
  *      MACROS
  **********************/

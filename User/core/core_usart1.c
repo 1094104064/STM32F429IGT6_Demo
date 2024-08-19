@@ -179,6 +179,35 @@ void core_usart1_receive_cb(void)
     }
 }
 
+void core_usart1_print(const char * const fmt, ...)
+{
+    char str[256];
+    uint16_t len;
+    char * ptr = &str[0];
+    
+    va_list args;
+    
+    /* print to the buffer */
+    memset((char *)str, 0, sizeof(char) * 256); 
+    va_start(args, fmt);
+    vsnprintf((char *)str, 255, (char const *)fmt, args);
+    va_end(args);
+    
+    /* send the data */
+    len = strlen((char *)str);
+    
+    for(uint32_t i = 0; i < len; i++) {
+       
+        
+        /*!< Send single byte */
+        USART_SendData(USART1, (uint8_t)(*ptr & 0xFFU));	
+        ptr++;
+        
+        /*!< Waiting for sending to complete */
+        while (USART_GetFlagStatus(USART1, USART_FLAG_TXE) == RESET);	
+    }
+}
+
 /**********************
  *   SPECIAL CONFIG
  **********************/

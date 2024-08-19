@@ -19,7 +19,8 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-
+#include <string.h>
+#include <stdint.h>
 /*********************
  *      DEFINES
  *********************/
@@ -27,10 +28,23 @@ extern "C" {
 /**********************
  *      TYPEDEFS
  **********************/
- 
+
+typedef struct _st7735_spi_interface_t {
+    int8_t (* init)(void);
+    int8_t (* deinit)(void);
+    
+}st7735_spi_interface_t;
+
+
+typedef struct _bsp_st7735_t {
+    st7735_spi_interface_t spi_interface;
+}bsp_st7735_t;
+
+
+
 /**********************
-* GLOBAL PROTOTYPES
-**********************/
+*  GLOBAL PROTOTYPES
+ **********************/
 
 /**********************
  *      MACROS

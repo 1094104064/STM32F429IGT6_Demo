@@ -44,6 +44,22 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
+#if BMP180_DEBUG
+
+static void _bsp_bmp180_log_add( bsp_bmp180_t * self, 
+                                        const char * file, 
+                                        int line, 
+                                        const char * func, 
+                                        const char * format, 
+                                        ... );
+
+#define LOG(self, ...) _bsp_bmp180_log_add(self, __FILE__, __LINE__, __func__, __VA_ARGS__)
+
+#else 
+
+#define LOG(self, ...)
+
+#endif
 
 /**********************
  *  STATIC VARIABLES
@@ -65,7 +81,7 @@ int8_t bsp_bmp180_temp_reg_read(bsp_bmp180_t * self, uint32_t * temp)
 
     self->delay_interface.delay_ms(20);
 
-    self->iic_interface.read_buf(buf, BMP180_DEV_ADDR, BMP180_RESULT_REG, 2);
+    self->iic_interface.read_buf(BMP180_DEV_ADDR, BMP180_RESULT_REG, buf, 2);
 
     tmp = (((buf[0] << 8) | buf[1]));
 
@@ -85,7 +101,7 @@ int8_t bsp_bmp180_pressure_reg_read(bsp_bmp180_t * self, uint32_t * pre)
 
     self->delay_interface.delay_ms(20);
 
-    self->iic_interface.read_buf(buf, BMP180_DEV_ADDR, BMP180_RESULT_REG, 2);
+    self->iic_interface.read_buf(BMP180_DEV_ADDR, BMP180_RESULT_REG, buf, 2);
 
     tmp = ((buf[0] << 8) | buf[1]);
 
@@ -193,20 +209,14 @@ int8_t bsp_bmp180_altitude_calc(bsp_bmp180_t * self)
 int8_t bsp_bmp180_init( bsp_bmp180_t * self,
                         int8_t  (* pf_iic_init)         (void),
                         int8_t  (* pf_iic_deinit)       (void),
-                        int8_t  (* pf_iic_start)        (void),
-                        int8_t  (* pf_iic_stop)         (void),
-                        int8_t  (* pf_iic_send_byte)    (uint8_t byte),
-                        uint8_t (* pf_iic_read_byte)    (void),
-                        uint8_t (* pf_iic_wait_ack)     (void),
-                        int8_t  (* pf_iic_generate_ack) (void),
-                        int8_t  (* pf_iic_generate_nack)(void),
-                        int8_t  (* pf_iic_is_busy)      (void),
-                        int8_t  (* pf_iic_write_buf)    (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num),
-                        int8_t  (* pf_iic_read_buf)     (uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num),
-                        
+                        int8_t  (* pf_iic_write_buf)    (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len),
+                        int8_t  (* pf_iic_read_buf)     (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len),
+#if BMP180_DEBUG
+                        void    (* pf_debug_print)      (const char *const fmt, ...),
+#endif
                         void    (* pf_delay_init)       (void),
-                        void    (* pf_delay_us)         (uint32_t nus),
-                        void    (* pf_delay_ms)         (uint32_t nms) )
+                        void    (* pf_delay_ms)         (uint32_t nms),
+                        void    (* pf_delay_us)         (uint32_t nus) )
 {   
     int8_t ret = 0;
     uint8_t rec_buf[4] = {0};
@@ -215,27 +225,11 @@ int8_t bsp_bmp180_init( bsp_bmp180_t * self,
 
     self->iic_interface.init            = pf_iic_init;
     self->iic_interface.deinit          = pf_iic_deinit;
-    self->iic_interface.start           = pf_iic_start;
-    self->iic_interface.stop            = pf_iic_stop;
-    self->iic_interface.send_byte       = pf_iic_send_byte;
-    self->iic_interface.read_byte       = pf_iic_read_byte;
-    self->iic_interface.wait_ack        = pf_iic_wait_ack;
-    self->iic_interface.generate_ack    = pf_iic_generate_ack;
-    self->iic_interface.generate_nack   = pf_iic_generate_nack;
-    self->iic_interface.is_busy         = pf_iic_is_busy;
     self->iic_interface.write_buf       = pf_iic_write_buf;
     self->iic_interface.read_buf        = pf_iic_read_buf;
 
     if( (self->iic_interface.init           == NULL) ||
         (self->iic_interface.deinit         == NULL) ||
-        (self->iic_interface.start          == NULL) ||
-        (self->iic_interface.stop           == NULL) ||
-        (self->iic_interface.send_byte      == NULL) ||
-        (self->iic_interface.read_byte      == NULL) ||
-        (self->iic_interface.wait_ack       == NULL) ||
-        (self->iic_interface.generate_ack   == NULL) ||
-        (self->iic_interface.generate_nack  == NULL) ||
-        (self->iic_interface.is_busy        == NULL) ||
         (self->iic_interface.write_buf      == NULL) ||
         (self->iic_interface.read_buf       == NULL) )
     {
@@ -253,6 +247,16 @@ int8_t bsp_bmp180_init( bsp_bmp180_t * self,
         return -2;
     }
 
+#if BMP180_DEBUG
+
+    self->debug_print = pf_debug_print;
+
+    if(self->debug_print == NULL) {
+        return -3;
+    }
+
+#endif
+
     self->temp_reg_read       = bsp_bmp180_temp_reg_read;
     self->pressure_reg_read   = bsp_bmp180_pressure_reg_read;
     self->temp_calc           = bsp_bmp180_temp_calc;
@@ -262,63 +266,64 @@ int8_t bsp_bmp180_init( bsp_bmp180_t * self,
 
 
     if(0 != self->iic_interface.init()) {
-        return -3;
+        return -4;
     }
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xAA, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAA, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac1 = (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-    ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xAC, 2);
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAC, rec_buf, 2);
     if(ret != 0) return ret;
 	self->calibration_value.ac2 = (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xAE, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAE, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac3 = (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xB0, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB0, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac4 = (uint16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xB2, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB2, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac5 = (uint16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xB4, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB4, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac6 = (uint16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xB6, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB6, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.b1  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xB8, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB8, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.b2  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xBA, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBA, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.mb  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xBC, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBC, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.mc  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
 
-	ret = self->iic_interface.read_buf(rec_buf, BMP180_DEV_ADDR, 0xBE, 2);
+	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBE, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.md  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
     
+    LOG(self, "Finished!");
 
     return 0;
 }
@@ -326,6 +331,37 @@ int8_t bsp_bmp180_init( bsp_bmp180_t * self,
 /**********************
  *   STATIC FUNCTIONS
  **********************/
+static void _bsp_bmp180_log_add( bsp_bmp180_t * self, 
+            							const char * file, 
+            							int line, 
+            							const char * func, 
+            							const char * format, 
+            							... )
+{
+    char str[512] = {0};
+    char * ptr = &str[0];
+    
+    va_list args;
+    va_start(args, format); 
+    
+    /*Use only the file name not the path*/
+    size_t p;
+    for(p = strlen(file); p > 0; p--) {
+        if(file[p] == '/' || file[p] == '\\') {
+            p++;    /*Skip the slash*/
+            break;
+        }
+    }
+
+    self->debug_print("[%s]\t %s: ", "BMP180", func);
+    
+    vsnprintf(str, 255, format, args);
+    va_end(args);
+
+    self->debug_print("%s", ptr);
+    
+    self->debug_print(" \t(in %s line #%d)\n", &file[p], line);
+}
 
 
 /******************************* (END OF FILE) *********************************/

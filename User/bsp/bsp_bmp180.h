@@ -19,13 +19,15 @@ extern "C" {
 /*********************
  *      INCLUDES
  *********************/
-#include <string.h>
+#include <stdio.h>
 #include <stdint.h>
+#include <string.h>
+#include <stdarg.h>
 #include <math.h>
 /*********************
  *      DEFINES
  *********************/
-
+#define BMP180_DEBUG 1
 /**********************
  *      TYPEDEFS
  **********************/
@@ -33,23 +35,15 @@ extern "C" {
 typedef struct _bmp180_iic_interface_t {
     int8_t  (* init)            (void);
     int8_t  (* deinit)          (void);
-    int8_t  (* start)           (void);
-    int8_t  (* stop)            (void);
-    int8_t  (* send_byte)       (uint8_t byte);
-    uint8_t (* read_byte)       (void);
-    uint8_t (* wait_ack)        (void);
-    int8_t  (* generate_ack)    (void);
-    int8_t  (* generate_nack)   (void);
-    int8_t  (* is_busy)         (void);
-    int8_t  (* write_buf)       (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num);
-    int8_t  (* read_buf)        (uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num);
+    int8_t  (* read_buf)        (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len);
+    int8_t  (* write_buf)       (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len);
 }bmp180_iic_interface_t;
 
 
 typedef struct _bmp180_delay_interface_t {
     void (* delay_init) (void);
-    void (* delay_us)   (uint32_t nus);
     void (* delay_ms)   (uint32_t nms);
+    void (* delay_us)   (uint32_t nus);
 }bmp180_delay_interface_t;
 
 typedef struct _bmp180_calibration_value_t {
@@ -87,7 +81,10 @@ typedef struct _bsp_bmp180_t {
     int8_t (* pressure_calc)        (struct _bsp_bmp180_t * self, uint32_t val);
     int8_t (* atmosphere_calc)      (struct _bsp_bmp180_t * self);
     int8_t (* altitude_calc)        (struct _bsp_bmp180_t * self);
-    
+
+#if BMP180_DEBUG
+    void   (* debug_print)          (const char *const fmt, ...);
+#endif
 }bsp_bmp180_t;
 
 
@@ -101,20 +98,14 @@ typedef struct _bsp_bmp180_t {
 int8_t bsp_bmp180_init( bsp_bmp180_t * self,
                         int8_t  (* pf_iic_init)         (void),
                         int8_t  (* pf_iic_deinit)       (void),
-                        int8_t  (* pf_iic_start)        (void),
-                        int8_t  (* pf_iic_stop)         (void),
-                        int8_t  (* pf_iic_send_byte)    (uint8_t byte),
-                        uint8_t (* pf_iic_read_byte)    (void),
-                        uint8_t (* pf_iic_wait_ack)     (void),
-                        int8_t  (* pf_iic_generate_ack) (void),
-                        int8_t  (* pf_iic_generate_nack)(void),
-                        int8_t  (* pf_iic_is_busy)      (void),
-                        int8_t  (* pf_iic_write_buf)    (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t byte_num),
-                        int8_t  (* pf_iic_read_buf)     (uint8_t * pbuf, uint8_t dev_addr, uint8_t reg_addr, uint16_t byte_num),
-                        
+                        int8_t  (* pf_iic_write_buf)    (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len),
+                        int8_t  (* pf_iic_read_buf)     (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len),
+#if BMP180_DEBUG
+                        void    (* pf_debug_print)      (const char *const fmt, ...),
+#endif
                         void    (* pf_delay_init)       (void),
-                        void    (* pf_delay_us)         (uint32_t nus),
-                        void    (* pf_delay_ms)         (uint32_t nms) );
+                        void    (* pf_delay_ms)         (uint32_t nms),
+                        void    (* pf_delay_us)         (uint32_t nus) );
 /**********************
  *      MACROS
  **********************/
