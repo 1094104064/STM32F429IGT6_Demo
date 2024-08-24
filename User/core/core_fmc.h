@@ -1,15 +1,15 @@
 /**
   ******************************************************************************
   *
-  * @file    core_gpio.h
+  * @file    core_fmc.h
   * @author  GarMing
-  * @brief   Header file of core_gpio module.
+  * @brief   Header file of core_fmc module.
   *
   ******************************************************************************
   **/
   
-#ifndef _CORE_GPIO_H
-#define _CORE_GPIO_H
+#ifndef _CORE_FMC_H
+#define _CORE_FMC_H
 
 
 #ifdef __cplusplus
@@ -31,23 +31,9 @@ extern "C" {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-int8_t core_gpio_key_init(void);
-
-int8_t core_gpio_blue_led_init(void);
-int8_t core_gpio_blue_led_deinit(void);
-int8_t core_gpio_blue_led_on(void);
-int8_t core_gpio_blue_led_off(void);
-
-int8_t core_gpio_yellow_led_init(void);
-int8_t core_gpio_yellow_led_deinit(void);
-int8_t core_gpio_yellow_led_on(void);
-int8_t core_gpio_yellow_led_off(void);
-
-int8_t core_gpio_lcd_backlight_init(void);
-int8_t core_gpio_lcd_backlight_deinit(void);
-int8_t core_gpio_lcd_backlight_on(void);
-int8_t core_gpio_lcd_backlight_off(void);
-
+int8_t core_fmc_sdram_init(void);
+int8_t core_fmc_sdram_deinit(void);
+int8_t core_fmc_sdram_test(void);
 /**********************
  *      MACROS
  **********************/
@@ -58,7 +44,7 @@ int8_t core_gpio_lcd_backlight_off(void);
 }
 #endif
 
-#endif /*_CORE_GPIO_H*/
+#endif /*_CORE_FMC_H*/
 
 
 /******************************* (END OF FILE) *********************************/

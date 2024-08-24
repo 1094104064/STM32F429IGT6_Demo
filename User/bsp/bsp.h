@@ -25,6 +25,9 @@ extern "C" {
 #include "core_swiic.h"
 #include "core_hwiic.h"
 #include "core_spi1.h"
+#include "core_ltdc.h"
+#include "core_fmc.h"
+#include "core_dma2d.h"
     
 #include "bsp_ioled.h"
 #include "bsp_tick.h"

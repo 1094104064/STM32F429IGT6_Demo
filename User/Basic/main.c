@@ -103,14 +103,18 @@ static void Demo(void)
     demo_task_printf();
 #endif
 
-#if 1
+#if 0
     demo_bmp180_test();
 #endif
 
 #if 0
     demo_w25qxx_test();
 #endif
-  
+
+#if 0
+    demo_lcd_test();
+#endif
+
 }
 
 
@@ -144,6 +148,8 @@ static void Info(void)
     LOG_USER("Project Version: %d.%d.%d", PROJ_VERSION_MAJOR, PROJ_VERSION_MINOR, PROJ_VERSION_PATCH);
     printf("\r\n");
     LOG_USER("Compile time: (Date)%s,  (Time)%s", __DATE__, __TIME__);
+    printf("\r\n");
+    LOG_USER("System Frequency = %d", SystemCoreClock);
     printf("\r\n");
     LOG_USER("*************************************************************");
     printf("\r\n");

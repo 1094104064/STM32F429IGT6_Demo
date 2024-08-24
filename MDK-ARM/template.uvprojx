@@ -434,6 +434,21 @@
               <FileType>1</FileType>
               <FilePath>..\User\core\core_spi1.c</FilePath>
             </File>
+            <File>
+              <FileName>core_ltdc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\core\core_ltdc.c</FilePath>
+            </File>
+            <File>
+              <FileName>core_fmc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\core\core_fmc.c</FilePath>
+            </File>
+            <File>
+              <FileName>core_dma2d.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\core\core_dma2d.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -453,6 +468,11 @@
               <FileName>bsp_tick.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\bsp\bsp_tick.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_lcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\bsp\bsp_lcd.c</FilePath>
             </File>
             <File>
               <FileName>bsp_ioled.c</FileName>
@@ -533,6 +553,11 @@
               <FileName>demo_w25qxx_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\demo\demo_w25qxx_test.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_lcd_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\demo\demo_lcd_test.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -111,7 +111,6 @@ int8_t core_swiic_start(void)
     return 0;
 }
 
-
 int8_t core_swiic_stop(void)
 {
     /*!< When the SCL is on high power, 
@@ -123,7 +122,6 @@ int8_t core_swiic_stop(void)
 
     return 0;
 }
-
 
 int8_t core_swiic_send_byte(uint8_t byte)
 {
@@ -197,7 +195,6 @@ int8_t core_swiic_generate_ack(void)
 
     return 0;
 }
-
 
 int8_t core_swiic_generate_nack(void)
 {

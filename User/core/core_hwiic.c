@@ -244,7 +244,6 @@ int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
     return 0;
 }
 
-
 int8_t core_hwiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
     while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));

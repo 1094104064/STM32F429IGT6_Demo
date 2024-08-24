@@ -142,7 +142,12 @@ void USART1_IRQHandler(void)
     }	 	
 }
 
+void EXTI9_5_IRQHandler(void)
+{
+    EXTI_ClearITPendingBit(EXTI_Line8);
 
+    LOG_INFO("!");
+}
 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

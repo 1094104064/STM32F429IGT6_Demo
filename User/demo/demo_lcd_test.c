@@ -1,44 +1,54 @@
 /**
   ******************************************************************************
   *
-  * @file    demo.h
+  * @file    demo_lcd_test.c
   * @author  GarMing
   * @brief   
   *
   ******************************************************************************
+  * @attention
+  *
+  * 
+  *
+  ******************************************************************************
   **/
   
-#ifndef _DEMO_H
-#define _DEMO_H
-
+  
 /*********************
  *      INCLUDES
  *********************/
+#include "proj.h"
+/**********************
+ *      MACROS
+ **********************/
 
 /*********************
  *      DEFINES
  *********************/
 
 /**********************
- *      TYPEDEFS
- **********************/
- 
+ *   GLOBAL VARIABLES
+ **********************/ 
+
 /**********************
-*  GLOBAL PROTOTYPES
- **********************/
-void demo_ioled_flash_light(void);
-void demo_ioled_grad_light(void);
-void demo_console_receive(void);
-void demo_tick_delay_printf(void);
-void demo_task_printf(void);
-void demo_bmp180_test(void);
-void demo_w25qxx_test(void);
-void demo_lcd_test(void);
-/**********************
- *      MACROS
+ *  STATIC PROTOTYPES
  **********************/
 
-#endif /*_DEMO_H*/
+/**********************
+ *  STATIC VARIABLES
+ **********************/
+
+/**********************
+ *   GLOBAL FUNCTIONS
+ **********************/ 
+void demo_lcd_test(void)
+{
+    
+}
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
 
 
 /******************************* (END OF FILE) *********************************/
+	
