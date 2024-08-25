@@ -202,9 +202,8 @@ int8_t core_gpio_lcd_backlight_init(void)
     GPIO_InitStructure.GPIO_Pin = LCD_BL_PIN;	
     GPIO_Init(LCD_BL_PORT, &GPIO_InitStructure);	
 
-    /*!< Sets LED2 port bits, off */
-    GPIO_SetBits(LCD_BL_PORT, LCD_BL_PIN); 
-
+    GPIO_ResetBits(LCD_BL_PORT, LCD_BL_PIN); 
+    
     return 0;
 }
 
@@ -217,14 +216,14 @@ int8_t core_gpio_lcd_backlight_deinit(void)
 
 int8_t core_gpio_lcd_backlight_on(void)
 {
-    GPIO_ResetBits(YELLOW_LED_PORT, YELLOW_LED_PIN); 
+    GPIO_SetBits(LCD_BL_PORT, LCD_BL_PIN); 
 
     return 0;
 }
 
 int8_t core_gpio_lcd_backlight_off(void)
 {
-    GPIO_SetBits(YELLOW_LED_PORT, YELLOW_LED_PIN); 
+    GPIO_ResetBits(LCD_BL_PORT, LCD_BL_PIN); 
 
     return 0;
 }

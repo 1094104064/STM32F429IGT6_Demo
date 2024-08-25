@@ -47,6 +47,11 @@ typedef struct _lcd_fmc_interface_t {
     int8_t (* sdram_deinit)(void);
 }lcd_fmc_interface_t;
 
+typedef struct _lcd_delay_interface_t {
+    void (* delay_init)(void);
+    void (* delay_ms)(uint32_t ms);
+    void (* delay_us)(uint32_t us);
+}lcd_delay_interface_t;
 
 
 typedef struct _lcd_backlight_interface_t {
@@ -64,10 +69,10 @@ typedef struct _bsp_lcd_t {
     lcd_ltdc_interface_t             ltdc_interface;
     lcd_fmc_interface_t              fmc_interface;
     lcd_backlight_interface_t        backlight_interface;
+    lcd_delay_interface_t            delay_interface;
 
-
-    int8_t      (* draw_pixel)       (uint16_t x, uint16_t y, uint16_t color);
-    int8_t      (* fill_rect)        (uint16_t x, uint16_t y, uint16_t width, uint16_t height);
+    int8_t      (* draw_pixel)       (uint16_t x, uint16_t y, uint32_t color);
+    int8_t      (* fill_rect)        (uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color);
     int8_t      (* draw_line)        (struct _bsp_lcd_t * self, uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey);
     int8_t      (* draw_rect)        (struct _bsp_lcd_t * self, uint16_t x, uint16_t y, uint16_t width, uint16_t height);
     int8_t      (* draw_circle)      (struct _bsp_lcd_t * self, uint16_t x, uint16_t y, uint16_t r);
@@ -80,7 +85,26 @@ typedef struct _bsp_lcd_t {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
+int8_t bsp_lcd_init( bsp_lcd_t * self, 
 
+                     int8_t (* pf_sdram_init)(void),
+                     int8_t (* pf_sdram_deinit)(void),
+                     
+                     int8_t (* pf_ltdc_init)(void),
+                     int8_t (* pf_ltdc_deinit)(void),
+                     
+                     int8_t (* pf_backlight_init)(void),
+                     int8_t (* pf_backlight_deinit)(void),
+                     int8_t (* pf_backlight_on)(void),
+                     int8_t (* pf_backlight_off)(void),
+                     int8_t (* pf_backlight_set_bright)(uint32_t val),
+                     
+                     void (* pf_delay_init)(void),
+                     void (* pf_delay_ms)(uint32_t ms),
+                     void (* pf_delay_us)(uint32_t us),
+                     
+                     int8_t (* pf_draw_pixel)(uint16_t x, uint16_t y, uint32_t color),
+                     int8_t (* pf_fill_rect)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color) );
 /**********************
  *      MACROS
  **********************/

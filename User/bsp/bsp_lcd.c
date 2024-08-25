@@ -233,8 +233,12 @@ int8_t bsp_lcd_init( bsp_lcd_t * self,
                      int8_t (* pf_backlight_off)(void),
                      int8_t (* pf_backlight_set_bright)(uint32_t val),
                      
-                     int8_t (* pf_draw_pixel)(uint16_t x, uint16_t y, uint16_t color),
-                     int8_t (* pf_fill_rect)(uint16_t x, uint16_t y, uint16_t width, uint16_t height) )
+                     void (* pf_delay_init)(void),
+                     void (* pf_delay_ms)(uint32_t ms),
+                     void (* pf_delay_us)(uint32_t us),
+                     
+                     int8_t (* pf_draw_pixel)(uint16_t x, uint16_t y, uint32_t color),
+                     int8_t (* pf_fill_rect)(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color) )
 {
 
 	memset(self, 0, sizeof(bsp_lcd_t));
@@ -256,6 +260,11 @@ int8_t bsp_lcd_init( bsp_lcd_t * self,
     self->backlight_interface.set_bright = pf_backlight_set_bright;
 
     self->backlight_interface.init();
+    
+    self->delay_interface.delay_init = pf_delay_init;
+    self->delay_interface.delay_ms = pf_delay_ms;
+    self->delay_interface.delay_us = pf_delay_us;
+
 
     self->draw_pixel = pf_draw_pixel;
     self->fill_rect = pf_fill_rect;

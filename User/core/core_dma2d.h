@@ -31,7 +31,7 @@ extern "C" {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-
+int8_t core_dma2d_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t height, uint32_t color);
 /**********************
  *      MACROS
  **********************/

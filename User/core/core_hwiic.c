@@ -127,8 +127,6 @@ int8_t core_hwiic_start(void)
   */
 int8_t core_hwiic_stop(void)
 {
-    uint32_t ticks = 0;
-
     /*!< Generate a STOP condition */
     I2C_GenerateSTOP(IIC, ENABLE);
 

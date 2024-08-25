@@ -111,7 +111,7 @@ static void Demo(void)
     demo_w25qxx_test();
 #endif
 
-#if 0
+#if 1
     demo_lcd_test();
 #endif
 

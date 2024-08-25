@@ -38,6 +38,7 @@ extern "C" {
 #include "bsp_w25qxx.h"
 #include "bsp_st7735.h"
 #include "bsp_task.h"
+#include "bsp_lcd.h"
 
 /*********************
  *      DEFINES

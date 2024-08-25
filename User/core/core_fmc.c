@@ -25,7 +25,7 @@
 #define SDRAM_DELAY_MS(ms) do {for(uint32_t i = 0; i < (ms) * 1000 * 48; i++);} while(0);
 
 
-#define SDRAM_Size 0x02000000  //32M字节
+#define SDRAM_Size 	0x02000000  //32M字节
 
 #define FMC_BANK_SDRAM            FMC_Bank2_SDRAM 				 // SDRAM 的bank选择
 #define FMC_COMMAND_TARGET_BANK   FMC_Command_Target_bank2

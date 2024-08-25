@@ -99,96 +99,22 @@
 #define LTDC_B7_PINSOURCE     GPIO_PinSource7
 
 
-#define LTDC_CLK_PORT         GPIOG					//LCD时钟引脚
+#define LTDC_CLK_PORT         GPIOG					
 #define LTDC_CLK_PIN          GPIO_Pin_7
 #define LTDC_CLK_PINSOURCE    GPIO_PinSource7
 
-#define LTDC_HSYNC_PORT       GPIOI					//行同步
+#define LTDC_HSYNC_PORT       GPIOI					
 #define LTDC_HSYNC_PIN        GPIO_Pin_10
 #define LTDC_HSYNC_PINSOURCE  GPIO_PinSource10
 
-#define LTDC_VSYNC_PORT       GPIOI					//帧同步
+#define LTDC_VSYNC_PORT       GPIOI					
 #define LTDC_VSYNC_PIN        GPIO_Pin_9
 #define LTDC_VSYNC_PINSOURCE  GPIO_PinSource9
 
-#define LTDC_DE_PORT          GPIOF					//数据使能
+#define LTDC_DE_PORT          GPIOF					
 #define LTDC_DE_PIN           GPIO_Pin_10
 #define LTDC_DE_PINSOURCE     GPIO_PinSource10
 
-
-#define HBP  43	// 根据屏幕的手册进行设置
-#define VBP  12
-#define HSW  1
-#define VSW  1
-#define HFP  8
-#define VFP  8
-
-#define LCD_HOR         480				//LCD的像素长度
-#define LCD_VER         272				//LCD的像素宽度
-#define LCD_MemoryAdd   0xD0000000 	    //显存的起始地址  
-
-#define	LCD_ARGB4444    4  	            // 定义颜色格式 ARGB4444， 对应寄存器 LTDC_LxPFCR 的 PF[2:0]
-#define	LCD_ARGB1555    3   	        // 定义颜色格式 ARGB1555， 对应寄存器 LTDC_LxPFCR 的 PF[2:0]
-#define	LCD_RGB565      2   	        // 定义颜色格式 RGB565，   对应寄存器 LTDC_LxPFCR 的 PF[2:0]
-#define	LCD_RGB888      1   	        // 定义颜色格式 RGB888 ，  对应寄存器 LTDC_LxPFCR 的 PF[2:0]
-#define	LCD_ARGB8888    0  	            // 定义颜色格式 ARGB8888 ，对应寄存器 LTDC_LxPFCR 的 PF[2:0]
-
-
-
-// 1. 设置LTDC时钟，这里设置为10MHz，即刷新率在60帧左右，过高或者过低都会造成闪烁 
-// 2. 这里为了方便计算数值应在3-18之间，单位为MHz，具体设置时钟的代码在 LCD_Init()
-// 3. 这里的时钟并不是越快越好！！！
-// 4. 过高的时钟会加大对SDRAM的占用，容易造成花屏，并且屏幕本身不支持这么高的刷新率，还会导致屏幕闪烁显示异常等
-// 5. 过低的时钟会导致刷新率太低，屏幕会有闪烁
-#define 	LCD_CLK   10 	// 10M的时钟，刷新率在60Hz左右
-
-
-// 1. 如果只用单层，该参数定义为1即可，使用双层的话，需要修改为 2
-// 2. FK429M2 核心板 使用的是外部 SDRAM 作为显存，起始地址0xD0000000，SDRAM大小为32M
-// 3. 显存所需空间 = 分辨率 * 每个像素所占字节数，例如 480*272的屏，使用16位色（RGB565或者AEGB1555），需要显存 480*272*2 = 261120 字节
-// 4. 不管是单层显示还是双层显示，都不能超过 SDRAM 的大小
-//	5. 如果用户需要双层显示，则 layer1 应设置为带透明色的格式，即 ColorMode_1 设置为 ARGB8888 、 ARGB1555 或者 ARGB4444
-// 6. 如果只是单层，推荐使用RGB565，这样可以大大减小对系统资源的占用
-#define 	LCD_NUM_LAYERS  2			//定义显示的层数，429可驱动两层显示
-
-#define	ColorMode_0   LCD_RGB565   		//定义层0的颜色格式
-//#define	ColorMode_0   LCD_ARGB1555   
-//#define	ColorMode_0   LCD_ARGB4444
-//#define	ColorMode_0   LCD_RGB888  
-//#define	ColorMode_0   LCD_ARGB8888   
-
-#if  LCD_NUM_LAYERS == 2		
-
-//	#define	ColorMode_1   LCD_RGB565   	//定义层1的颜色格式
-//	#define	ColorMode_1   LCD_ARGB1555   
-//	#define	ColorMode_1   LCD_ARGB4444   
-// #define	ColorMode_1   LCD_RGB888   
-	#define	ColorMode_1   LCD_ARGB8888   
-	
-#endif
-
-
-#if ( ColorMode_0 == LCD_RGB565 || ColorMode_0 == LCD_ARGB1555 || ColorMode_0 ==LCD_ARGB4444 )
-	#define BytesPerPixel_0		2		//16位色模式每个像素占2字节
-#elif ColorMode_0 == LCD_RGB888
-	#define BytesPerPixel_0		3		//24位色模式每个像素占3字节
-#else
-	#define BytesPerPixel_0		4		//32位色模式每个像素占4字节
-#endif	
-
-#if LCD_NUM_LAYERS == 2
-
-	#if ( ColorMode_1 == LCD_RGB565 || ColorMode_1 == LCD_ARGB1555 || ColorMode_1 == LCD_ARGB4444 )
-		#define BytesPerPixel_1		2	//16位色模式每个像素占2字节
-	#elif ColorMode_1 == LCD_RGB888	
-		#define BytesPerPixel_1		3	//24位色模式每个像素占3字节
-	#else	
-		#define BytesPerPixel_1		4	//32位色模式每个像素占4字节
-	#endif	
-
-	#define LCD_MemoryAdd_OFFSET   LCD_HOR * LCD_VER * BytesPerPixel_0 	 //第二层的显存的偏移地址 
-
-#endif
 /*********************
  *      DEFINES
  *********************/
@@ -196,11 +122,13 @@
 /**********************
  *   GLOBAL VARIABLES
  **********************/ 
-
+core_ltdc_render_info_t g_DispRenderInfo;
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-
+static int8_t _core_ltdc_gpio_init(void);
+static int8_t _core_ltdc_layer_init(void);
+static int8_t _core_ltdc_init(void);
 /**********************
  *  STATIC VARIABLES
  **********************/
@@ -209,6 +137,84 @@
  *   GLOBAL FUNCTIONS
  **********************/ 
 int8_t core_ltdc_init(void)
+{
+    _core_ltdc_gpio_init();
+    _core_ltdc_init();
+	_core_ltdc_layer_init();
+
+	LTDC_Cmd(ENABLE);	//	使能LCD控制器
+	
+	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_DMA2D, ENABLE); //	使能DMA2D
+
+    memset(&g_DispRenderInfo, 0, sizeof(g_DispRenderInfo));
+    
+    g_DispRenderInfo.pixel_byte = PIXEL_BYTE_LAYER0;
+    g_DispRenderInfo.color_mode = COLOR_MODE_LAYER0;
+    g_DispRenderInfo.flush_dir  = LCD_DISP_DIR_HOR;
+    g_DispRenderInfo.layer_addr = LCD_LAYER0_ADDR;
+    g_DispRenderInfo.color      = core_ltdc_color_hex(g_DispRenderInfo.color_mode, 0x0000FF);;
+
+    return 0;
+}
+
+uint32_t core_ltdc_color_hex(uint32_t color_mode, uint32_t color)
+{
+	uint16_t Alpha_Value = 0, Red_Value = 0, Green_Value = 0, Blue_Value = 0; //各个颜色通道的值
+    uint32_t color_getter = 0;
+
+	if(color_mode == LCD_RGB565){
+		Red_Value   = (uint16_t)((color & 0x00F80000) >> 8);
+		Green_Value = (uint16_t)((color & 0x0000FC00) >> 5);
+		Blue_Value  = (uint16_t)((color &0x000000F8) >> 3);
+		color_getter = (uint16_t)(Red_Value | Green_Value | Blue_Value);		
+	}
+	else if(color_mode == LCD_ARGB1555) {
+		if((color & 0xFF000000) == 0)	
+			Alpha_Value = 0x0000;
+		else
+			Alpha_Value = 0x8000;
+
+		Red_Value   = (uint16_t)((color & 0x00F80000) >> 9);	
+		Green_Value = (uint16_t)((color & 0x0000F800) >> 6);
+		Blue_Value  = (uint16_t)((color & 0x000000F8) >> 3);
+		color_getter = (uint16_t)(Alpha_Value | Red_Value | Green_Value | Blue_Value);	
+	}
+	else if(color_mode == LCD_ARGB4444){
+
+		Alpha_Value = (uint16_t)((color & 0xf0000000) >> 16);
+		Red_Value   = (uint16_t)((color & 0x00F00000) >> 12);	
+		Green_Value = (uint16_t)((color & 0x0000F000) >> 8);
+		Blue_Value  = (uint16_t)((color & 0x000000F8) >> 4);
+		color_getter = (uint16_t)(Alpha_Value | Red_Value | Green_Value | Blue_Value);	
+	}	
+	else {
+        color_getter = color;	
+    }
+		
+    return color_getter;
+}
+
+int8_t core_ltdc_set_layer(uint8_t layer_idx)
+{
+    if (layer_idx == 0) {
+        g_DispRenderInfo.layer_addr     = LCD_LAYER0_ADDR; 	
+        g_DispRenderInfo.color_mode     = COLOR_MODE_LAYER0;		
+        g_DispRenderInfo.pixel_byte     = PIXEL_BYTE_LAYER0;	
+    }
+    else if(layer_idx == 1) {
+        g_DispRenderInfo.layer_addr     = LCD_LAYER1_ADDR;	
+        g_DispRenderInfo.color_mode     = COLOR_MODE_LAYER1;                           
+        g_DispRenderInfo.pixel_byte     = PIXEL_BYTE_LAYER1;		                  
+    }
+
+    return 0;
+}
+
+
+/**********************
+ *   STATIC FUNCTIONS
+ **********************/
+static int8_t _core_ltdc_gpio_init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct = {0};
 
@@ -324,21 +330,24 @@ int8_t core_ltdc_init(void)
 	GPIO_InitStruct.GPIO_Pin = LTDC_DE_PIN;
 	GPIO_Init(LTDC_DE_PORT, &GPIO_InitStruct);
 
+	return 0;
+}
 
-	LTDC_Layer_InitTypeDef LTDC_Layer_InitStruct = {0}; 
+static int8_t _core_ltdc_layer_init(void)
+{
+    LTDC_Layer_InitTypeDef LTDC_Layer_InitStruct = {0}; 
 
-	/*---------------------------------- layer0 显示配置 --------------------------------*/
-
-	LTDC_Layer_InitStruct.LTDC_HorizontalStart 	= HBP + 1;
-	LTDC_Layer_InitStruct.LTDC_HorizontalStop  	= (LCD_HOR + HBP);
-	LTDC_Layer_InitStruct.LTDC_VerticalStart   	=  VBP + 1;
-	LTDC_Layer_InitStruct.LTDC_VerticalStop    	= (LCD_VER + VBP);
-	LTDC_Layer_InitStruct.LTDC_CFBLineNumber 		= LCD_VER; 					//显示区域的行数
-	LTDC_Layer_InitStruct.LTDC_PixelFormat     	= ColorMode_0;	//像素格式设置
+    /*!< layer0 显示配置 */
+    LTDC_Layer_InitStruct.LTDC_HorizontalStart 	= HBP + 1;
+    LTDC_Layer_InitStruct.LTDC_HorizontalStop  	= (LCD_WIDTH + HBP);
+    LTDC_Layer_InitStruct.LTDC_VerticalStart   	=  VBP + 1;
+    LTDC_Layer_InitStruct.LTDC_VerticalStop    	= (LCD_HEIGHT + VBP);
+    LTDC_Layer_InitStruct.LTDC_CFBLineNumber 	= LCD_HEIGHT;               /**< 显示区域的行数*/
+    LTDC_Layer_InitStruct.LTDC_PixelFormat     	= COLOR_MODE_LAYER0;        /**< 像素格式设置*/
 	
 // 配置 layer0 的恒定透明度，最终写入 LTDC_LxCACR 寄存器 
 //	需要注意的是，这个参数是直接配置整个 layer0 的透明度，这里设置为255即不透明 
-	LTDC_Layer_InitStruct.LTDC_ConstantAlpha 		= 255; // 取值范围0~255，255表示不透明，0表示完全透明
+	LTDC_Layer_InitStruct.LTDC_ConstantAlpha 	= 255;                      /**< 取值范围0~255，255表示不透明，0表示完全透明*/
 
 // 设置 layer0 的层混合系数，最终写入 LTDC_LxBFCR 寄存器 
 // 该参数用于设置 layer0 和 底层背景 之间的颜色混合系数，计算公式为 ：
@@ -347,29 +356,29 @@ int8_t core_ltdc_init(void)
 //	更多的介绍可以查阅 参考手册关于 LTDC_LxBFCR 寄存器的介绍
 	
 	LTDC_Layer_InitStruct.LTDC_BlendingFactor_1	= LTDC_BlendingFactor1_CA;    // 混合系数1
-	LTDC_Layer_InitStruct.LTDC_BlendingFactor_2 	= LTDC_BlendingFactor2_CA;    // 混合系数2
+	LTDC_Layer_InitStruct.LTDC_BlendingFactor_2 = LTDC_BlendingFactor2_CA;    // 混合系数2
 	
 // layer0 的显存地址，本例程使用外部的SDRAM作为显存，起始地址0xD0000000，SDRAM大小为32M
-// layer0 显存大小等于 = LCD_HOR * LCD_HOR * BytesPerPixel_0（每个像素所占字节大小）
+// layer0 显存大小等于 = LCD_WIDTH * LCD_WIDTH * BytesPerPixel_0（每个像素所占字节大小）
 // 因为 SDRAM 大小为32M，用户设置的区域一定不能超过这个值！		
-	LTDC_Layer_InitStruct.LTDC_CFBStartAdress 	= LCD_MemoryAdd; 				//第一层的起始地址
+	LTDC_Layer_InitStruct.LTDC_CFBStartAdress   = LCD_LAYER0_ADDR; 				//第一层的起始地址
 
 // 配置 layer0 的初始默认颜色，包括A,R,G,B 的值 ，最终写入 LTDC_LxDCCR 寄存器 
 	LTDC_Layer_InitStruct.LTDC_DefaultColorAlpha = 0;	// 初始颜色，A
-	LTDC_Layer_InitStruct.LTDC_DefaultColorRed 	= 0;  //	初始颜色，R
+	LTDC_Layer_InitStruct.LTDC_DefaultColorRed 	 = 0;  //	初始颜色，R
  	LTDC_Layer_InitStruct.LTDC_DefaultColorGreen = 0;  //	初始颜色，G
-	LTDC_Layer_InitStruct.LTDC_DefaultColorBlue 	= 0; 	//	初始颜色，B   
+	LTDC_Layer_InitStruct.LTDC_DefaultColorBlue  = 0; 	//	初始颜色，B   
  
    
-#if ( ColorMode_0 == LCD_RGB565 || ColorMode_0 == LCD_ARGB1555 || ColorMode_0 == LCD_ARGB4444 ) //判断颜色格式
+#if ( COLOR_MODE_LAYER0 == LCD_RGB565 || COLOR_MODE_LAYER0 == LCD_ARGB1555 || COLOR_MODE_LAYER0 == LCD_ARGB4444 ) //判断颜色格式
 	
-		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_HOR * 2) + 3);	 //每行的像素占的总字节数
-		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_HOR * 2); 				 //行间距，某像素的起始处到下一行的起始处的增量
+		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_WIDTH * 2) + 3);	 //每行的像素占的总字节数
+		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_WIDTH * 2); 				 //行间距，某像素的起始处到下一行的起始处的增量
 	
-#elif ( ColorMode_0 == LCD_RGB888 || ColorMode_0 == LCD_ARGB8888  )	//这里ARGB8888和RGB888使用相同的计算方式
+#elif ( COLOR_MODE_LAYER0 == LCD_RGB888 || COLOR_MODE_LAYER0 == LCD_ARGB8888  )	//这里ARGB8888和RGB888使用相同的计算方式
 	
-		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_HOR * 4) + 3);	//每行的像素占的总字节数
-		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_HOR * 4);  			   //行间距，某像素的起始处到下一行的起始处的增量
+		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_WIDTH * 4) + 3);	//每行的像素占的总字节数
+		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_WIDTH * 4);  			   //行间距，某像素的起始处到下一行的起始处的增量
 	
 		LTDC_DitherCmd(ENABLE);		//使能颜色抖动，24位以上的颜色必须打开，否则无法达到相应的效果
 	
@@ -381,7 +390,7 @@ int8_t core_ltdc_init(void)
 	
 /*---------------------------------- layer1 显示配置 --------------------------------*/
 
-#if ( LCD_NUM_LAYERS == 2 )	//当定义了双层时
+#if (LCD_LAYERS_NUM == 2)	//当定义了双层时
 
 // 设置 layer1 的层混合系数，最终写入 LTDC_LxBFCR 寄存器 
 // 该参数用于设置 layer1 和 (layer0+背景）之间的颜色混合系数，计算公式为 ：
@@ -393,19 +402,19 @@ int8_t core_ltdc_init(void)
 
 // layer1 的显存地址，本例程使用外部的SDRAM作为显存，起始地址0xD0000000，SDRAM大小为32M
 // 由于 layer0 会占用一部分显存，因此设置 layer1 显存时，需要进行一定偏移
-	LTDC_Layer_InitStruct.LTDC_CFBStartAdress 	= LCD_MemoryAdd + LCD_MemoryAdd_OFFSET; //层2的起始地址
+	LTDC_Layer_InitStruct.LTDC_CFBStartAdress 	= LCD_LAYER1_ADDR; //层2的起始地址
 	
-	LTDC_Layer_InitStruct.LTDC_PixelFormat 		= ColorMode_1;		//像素格式设置
+	LTDC_Layer_InitStruct.LTDC_PixelFormat 		= COLOR_MODE_LAYER1;		//像素格式设置
 	
-	#if	 ( ColorMode_1 == LCD_RGB565 || ColorMode_1 == LCD_ARGB1555 || ColorMode_1 == LCD_ARGB4444 ) //判断颜色格式
+	#if	 ( COLOR_MODE_LAYER1 == LCD_RGB565 || COLOR_MODE_LAYER1 == LCD_ARGB1555 || COLOR_MODE_LAYER1 == LCD_ARGB4444 ) //判断颜色格式
 	
-		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_HOR * 2) + 3);	//每行的像素占的总字节数
-		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_HOR * 2);  				//行间距，某像素的起始处到下一行的起始处的增量
+		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_WIDTH * 2) + 3);	//每行的像素占的总字节数
+		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_WIDTH * 2);  				//行间距，某像素的起始处到下一行的起始处的增量
 	
-	#elif  ( ColorMode_1 == LCD_RGB888 || ColorMode_1 == LCD_ARGB8888  )	 //这里ARGB8888和RGB888使用相同的计算方式
+	#elif  ( COLOR_MODE_LAYER1 == LCD_RGB888 || COLOR_MODE_LAYER1 == LCD_ARGB8888  )	 //这里ARGB8888和RGB888使用相同的计算方式
 	
-		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_HOR * 4) + 3);	//每行的像素占的总字节数
-		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_HOR * 4); 			   //行间距，某像素的起始处到下一行的起始处的增量
+		LTDC_Layer_InitStruct.LTDC_CFBLineLength = ((LCD_WIDTH * 4) + 3);	//每行的像素占的总字节数
+		LTDC_Layer_InitStruct.LTDC_CFBPitch = (LCD_WIDTH * 4); 			   //行间距，某像素的起始处到下一行的起始处的增量
 	
 		LTDC_DitherCmd(ENABLE);		//使能颜色抖动，24位以上的颜色必须打开，否则无法达到相应的效果
 
@@ -421,17 +430,46 @@ int8_t core_ltdc_init(void)
     return 0;
 }
 
-int8_t core_ltdc_deinit(void)
+static int8_t _core_ltdc_init(void)
 {
-    RCC_AHB1PeriphClockCmd(LCD_GPIO_CLK, DISABLE); 
+    uint16_t LCD_PLLSAIN = 0;		//	用于倍频的PLLSAIN参数，可取范围为50~432
+    uint8_t  LCD_PLLSAIR = 3;		//	用于分频的PLLSAIR参数，可取范围为2~7
+    uint8_t  LCD_CLKDIV	= 8;		//	LCD时钟分频参数，默认设置为8分频，数值上等于RCC_PLLSAIDivR_Div8
 
-    return 0;
+    LTDC_InitTypeDef  LTDC_InitStruct = {0};
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_LTDC, ENABLE); 	//	使能LTDC时钟
+
+    LCD_PLLSAIN = LTDC_CLK * LCD_PLLSAIR * LCD_CLKDIV;	//	根据需要使用的LCD时钟计算PLLSAIN参数，可取范围为50~432
+    RCC_PLLSAIConfig(LCD_PLLSAIN, 7, LCD_PLLSAIR);  		//	时钟配置
+    RCC_LTDCCLKDivConfig(RCC_PLLSAIDivR_Div8);	 		//	LCD时钟分频设置，要和LCD_CLKDIV对应
+    RCC_PLLSAICmd(ENABLE);	//使能PLLSAI时钟
+    while(RCC_GetFlagStatus(RCC_FLAG_PLLSAIRDY) == RESET);	//	等待时钟配置完成
+
+
+    LTDC_InitStruct.LTDC_HSPolarity = LTDC_HSPolarity_AL;    // 低电平有效 	
+    LTDC_InitStruct.LTDC_VSPolarity = LTDC_VSPolarity_AL;    // 低电平有效 
+    LTDC_InitStruct.LTDC_DEPolarity = LTDC_DEPolarity_AL;    // 低电平有效，要注意的是，很多面板都是高电平有效，但是429需要设置成低电平才能正常显示 
+    LTDC_InitStruct.LTDC_PCPolarity = LTDC_PCPolarity_IPC;   // 正常时钟信号
+                
+    LTDC_InitStruct.LTDC_BackgroundRedValue	    = 0;  // 初始背景色，R	     	     
+    LTDC_InitStruct.LTDC_BackgroundGreenValue   = 0;  // 初始背景色，G	        
+    LTDC_InitStruct.LTDC_BackgroundBlueValue 	= 0;  // 初始背景色，B 
+
+    LTDC_InitStruct.LTDC_HorizontalSync 		=	HSW - 1;									// 根据屏幕设置参数即可
+    LTDC_InitStruct.LTDC_VerticalSync 			= 	VSW	-1 ;
+    LTDC_InitStruct.LTDC_AccumulatedHBP 		=	HBP + HSW -1;
+    LTDC_InitStruct.LTDC_AccumulatedVBP 		= 	VBP + VSW -1;
+    LTDC_InitStruct.LTDC_AccumulatedActiveW 	= 	LCD_WIDTH  + HSW + HBP - 1;
+    LTDC_InitStruct.LTDC_AccumulatedActiveH 	= 	LCD_HEIGHT + VSW + VBP - 1;
+    LTDC_InitStruct.LTDC_TotalWidth 			=	LCD_WIDTH  + HSW + HBP + HFP - 1; 
+    LTDC_InitStruct.LTDC_TotalHeigh 			=	LCD_HEIGHT + VSW + VBP + VFP - 1;
+
+    LTDC_Init(&LTDC_InitStruct);	//	初始化LCD控制器
+
+
+
+	return 0;
 }
-
-/**********************
- *   STATIC FUNCTIONS
- **********************/
-
 
 /******************************* (END OF FILE) *********************************/
 	
