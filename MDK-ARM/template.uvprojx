@@ -420,6 +420,11 @@
               <FilePath>..\User\core\core_usart1.c</FilePath>
             </File>
             <File>
+              <FileName>core_tim6.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\core\core_tim6.c</FilePath>
+            </File>
+            <File>
               <FileName>core_swiic.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\core\core_swiic.c</FilePath>
