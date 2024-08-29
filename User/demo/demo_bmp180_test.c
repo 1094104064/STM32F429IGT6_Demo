@@ -81,18 +81,6 @@ void demo_bmp180_test(void)
        return;
    }
 
-    LOG_INFO("bmp180_ac1 = %d", dev_bmp180.calibration_value.ac1);
-    LOG_INFO("bmp180_ac2 = %d", dev_bmp180.calibration_value.ac2);
-    LOG_INFO("bmp180_ac3 = %d", dev_bmp180.calibration_value.ac3);
-    LOG_INFO("bmp180_ac4 = %d", dev_bmp180.calibration_value.ac4);
-    LOG_INFO("bmp180_ac5 = %d", dev_bmp180.calibration_value.ac5);
-    LOG_INFO("bmp180_ac6 = %d", dev_bmp180.calibration_value.ac6);
-    LOG_INFO("bmp180_b1 = %d", dev_bmp180.calibration_value.b1);
-    LOG_INFO("bmp180_b2 = %d", dev_bmp180.calibration_value.b2);
-    LOG_INFO("bmp180_mb = %d", dev_bmp180.calibration_value.mb);
-    LOG_INFO("bmp180_mc = %d", dev_bmp180.calibration_value.mc);
-    LOG_INFO("bmp180_md = %d", dev_bmp180.calibration_value.md);
-
     uint32_t reg_temp = 0;
     uint32_t reg_pre = 0;
 

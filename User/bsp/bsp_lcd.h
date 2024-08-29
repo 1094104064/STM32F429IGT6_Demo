@@ -30,30 +30,43 @@ extern "C" {
  *      TYPEDEFS
  **********************/
 
+/** 
+* @brief   structure
+*/ 
 typedef struct _lcd_disp_info_t {
     uint16_t hor_res;
     uint16_t ver_res;
     uint32_t draw_color;
 }lcd_disp_info_t;
 
-
+/** 
+* @brief   ltdc interface object
+*/ 
 typedef struct _lcd_ltdc_interface_t {
     int8_t (* init)(void);
     int8_t (* deinit)(void);
 }lcd_ltdc_interface_t;
 
-typedef struct _lcd_fmc_interface_t {
-    int8_t (* sdram_init)(void);
-    int8_t (* sdram_deinit)(void);
-}lcd_fmc_interface_t;
+/** 
+* @brief   
+*/ 
+typedef struct _lcd_sdram_interface_t {
+    int8_t (* init)(void);
+    int8_t (* deinit)(void);
+}lcd_sdram_interface_t;
 
+/** 
+* @brief   delay interface object
+*/ 
 typedef struct _lcd_delay_interface_t {
     void (* delay_init)(void);
     void (* delay_ms)(uint32_t ms);
     void (* delay_us)(uint32_t us);
 }lcd_delay_interface_t;
 
-
+/** 
+* @brief   backlight interface object
+*/ 
 typedef struct _lcd_backlight_interface_t {
     int8_t (* init)(void);
     int8_t (* deinit)(void);
@@ -63,11 +76,13 @@ typedef struct _lcd_backlight_interface_t {
 }lcd_backlight_interface_t;
 
 
-
+/** 
+* @brief   lcd object
+*/ 
 typedef struct _bsp_lcd_t {
     lcd_disp_info_t                  disp_info;
     lcd_ltdc_interface_t             ltdc_interface;
-    lcd_fmc_interface_t              fmc_interface;
+    lcd_sdram_interface_t            sdram_interface;
     lcd_backlight_interface_t        backlight_interface;
     lcd_delay_interface_t            delay_interface;
 

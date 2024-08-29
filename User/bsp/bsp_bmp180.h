@@ -27,11 +27,14 @@ extern "C" {
 /*********************
  *      DEFINES
  *********************/
-#define BMP180_DEBUG 1
+#define BMP180_DEBUG    1
 /**********************
  *      TYPEDEFS
  **********************/
 
+/** 
+* @brief   iic interface object
+*/ 
 typedef struct _bmp180_iic_interface_t {
     int8_t  (* init)            (void);
     int8_t  (* deinit)          (void);
@@ -39,13 +42,18 @@ typedef struct _bmp180_iic_interface_t {
     int8_t  (* write_buf)       (uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len);
 }bmp180_iic_interface_t;
 
-
+/** 
+* @brief   delay interface object
+*/ 
 typedef struct _bmp180_delay_interface_t {
     void (* delay_init) (void);
     void (* delay_ms)   (uint32_t nms);
     void (* delay_us)   (uint32_t nus);
 }bmp180_delay_interface_t;
 
+/** 
+* @brief   calibration value info
+*/ 
 typedef struct _bmp180_calibration_value_t {
     int16_t  ac1;
     int16_t  ac2;
@@ -61,6 +69,9 @@ typedef struct _bmp180_calibration_value_t {
     int16_t  md;
 }bmp180_calibration_value_t;
 
+/** 
+* @brief   calculate value info
+*/ 
 typedef struct _bmp180_calculated_value_t {
     float  temperature;
     float  pressure;
@@ -68,7 +79,9 @@ typedef struct _bmp180_calculated_value_t {
     double altitude;
 }bmp180_calculated_value_t;
 
-
+/** 
+* @brief   bmp180 object
+*/  
 typedef struct _bsp_bmp180_t {
     bmp180_iic_interface_t          iic_interface;
     bmp180_delay_interface_t        delay_interface;
@@ -86,11 +99,6 @@ typedef struct _bsp_bmp180_t {
     void   (* debug_print)          (const char *const fmt, ...);
 #endif
 }bsp_bmp180_t;
-
-
-
-
-
 
 /**********************
 *  GLOBAL PROTOTYPES

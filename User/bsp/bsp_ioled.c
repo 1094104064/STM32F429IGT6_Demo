@@ -43,6 +43,11 @@ int8_t _bsp_ioled_grad_light(bsp_ioled_t * self);
  *   GLOBAL FUNCTIONS
  **********************/ 
 
+/**
+  * @brief  Content
+  * @param  None
+  * @retval NULL
+  */
 int8_t bsp_ioled_init(bsp_ioled_t * self, 
                       int8_t (* pf_init)(void), 
                       int8_t (* pf_deinit)(void),

@@ -69,7 +69,12 @@ static void _bsp_bmp180_log_add( bsp_bmp180_t * self,
  *   GLOBAL FUNCTIONS
  **********************/ 
 
-
+/**
+  * @brief  Read temperature register
+  * @param  self: object
+  * @param  temp: obtained temperature
+  * @retval 0
+  */
 int8_t bsp_bmp180_temp_reg_read(bsp_bmp180_t * self, uint32_t * temp)
 {
     uint8_t data_buf[2] = {0};
@@ -90,6 +95,12 @@ int8_t bsp_bmp180_temp_reg_read(bsp_bmp180_t * self, uint32_t * temp)
     return 0;
 }
 
+/**
+  * @brief  Read pressure register
+  * @param  self: object
+  * @param  pre: obtained pressure
+  * @retval 0
+  */
 int8_t bsp_bmp180_pressure_reg_read(bsp_bmp180_t * self, uint32_t * pre)
 {
     uint8_t data_buf[2] = {0};
@@ -110,6 +121,12 @@ int8_t bsp_bmp180_pressure_reg_read(bsp_bmp180_t * self, uint32_t * pre)
     return 0;
 }
 
+/**
+  * @brief  Calculate the actual temperature through the temperature register value
+  * @param  self: object
+  * @param  val: raw temperature value
+  * @retval 0
+  */
 int8_t bsp_bmp180_temp_calc(bsp_bmp180_t * self, uint32_t val)
 {
     int x1 = 0;
@@ -135,6 +152,12 @@ int8_t bsp_bmp180_temp_calc(bsp_bmp180_t * self, uint32_t val)
     return 0;
 }
 
+/**
+  * @brief  Calculate the actual pressure through the pressure register value
+  * @param  self: object
+  * @param  val: raw pressure value
+  * @retval 0
+  */
 int8_t bsp_bmp180_pressure_calc(bsp_bmp180_t * self, uint32_t val)
 {
     int x1 = 0;
@@ -185,6 +208,11 @@ int8_t bsp_bmp180_pressure_calc(bsp_bmp180_t * self, uint32_t val)
     return 0;
 }
 
+/**
+  * @brief  Calculate atmosphere
+  * @param  self: object
+  * @retval 0
+  */
 int8_t bsp_bmp180_atmosphere_calc(bsp_bmp180_t * self)
 {
     self->calculated_value.atmosphere = self->calculated_value.pressure / 101325;
@@ -192,6 +220,11 @@ int8_t bsp_bmp180_atmosphere_calc(bsp_bmp180_t * self)
     return 0;
 }
 
+/**
+  * @brief  Calculate altitude
+  * @param  self: object
+  * @retval 0
+  */
 int8_t bsp_bmp180_altitude_calc(bsp_bmp180_t * self)
 {
     float a = self->calculated_value.pressure / 101325;
@@ -269,60 +302,72 @@ int8_t bsp_bmp180_init( bsp_bmp180_t * self,
         return -4;
     }
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAA, rec_buf, 2);
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAA, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac1 = (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "ac1 = %d", self->calibration_value.ac1);
+
 
     ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAC, rec_buf, 2);
     if(ret != 0) return ret;
-	self->calibration_value.ac2 = (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    self->calibration_value.ac2 = (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
+    LOG(self, "ac2 = %d", self->calibration_value.ac2);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAE, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xAE, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac3 = (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "ac3 = %d", self->calibration_value.ac3);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB0, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB0, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac4 = (uint16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "ac4 = %d", self->calibration_value.ac4);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB2, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB2, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac5 = (uint16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "ac5 = %d", self->calibration_value.ac5);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB4, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB4, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.ac6 = (uint16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "ac6 = %d", self->calibration_value.ac6);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB6, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB6, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.b1  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "b1 = %d", self->calibration_value.b1);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB8, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xB8, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.b2  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "b2 = %d", self->calibration_value.b2);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBA, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBA, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.mb  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "mb = %d", self->calibration_value.mb);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBC, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBC, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.mc  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "mc = %d", self->calibration_value.mc);
 
-	ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBE, rec_buf, 2);
+
+    ret = self->iic_interface.read_buf(BMP180_DEV_ADDR, 0xBE, rec_buf, 2);
     if(ret != 0) return ret;
     self->calibration_value.md  =  (int16_t)((rec_buf[0] << 8) | rec_buf[1]);
-    
+    LOG(self, "md = %d", self->calibration_value.md);
+
+
     LOG(self, "Finished!");
 
     return 0;
@@ -331,12 +376,13 @@ int8_t bsp_bmp180_init( bsp_bmp180_t * self,
 /**********************
  *   STATIC FUNCTIONS
  **********************/
+#if BMP180_DEBUG
 static void _bsp_bmp180_log_add( bsp_bmp180_t * self, 
-            							const char * file, 
-            							int line, 
-            							const char * func, 
-            							const char * format, 
-            							... )
+                                 const char * file, 
+                                 int line, 
+                                 const char * func, 
+                                 const char * format, 
+                                 ... )
 {
     char str[512] = {0};
     char * ptr = &str[0];
@@ -362,6 +408,6 @@ static void _bsp_bmp180_log_add( bsp_bmp180_t * self,
     
     self->debug_print(" \t(in %s line #%d)\n", &file[p], line);
 }
-
+#endif
 
 /******************************* (END OF FILE) *********************************/

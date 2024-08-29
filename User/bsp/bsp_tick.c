@@ -41,6 +41,12 @@
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
+
+/**
+  * @brief  Content
+  * @param  None
+  * @retval NULL
+  */
 int8_t bsp_tick_init( bsp_tick_t * self, 
                       void     (* pf_init)(void),
                       uint32_t (* pf_get)(void),

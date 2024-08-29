@@ -33,7 +33,22 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
+#if W25QXX_DEBUG
 
+static void _bsp_w25qxx_log_add( bsp_w25qxx_t * self, 
+                                 const char * file, 
+                                 int line, 
+                                 const char * func, 
+                                 const char * format, 
+                                 ... );
+
+#define LOG(self, ...) _bsp_w25qxx_log_add(self, __FILE__, __LINE__, __func__, __VA_ARGS__)
+
+#else 
+
+#define LOG(self, ...)
+
+#endif
 /**********************
  *  STATIC VARIABLES
  **********************/
@@ -42,6 +57,12 @@
  *   GLOBAL FUNCTIONS
  **********************/ 
 
+/**
+  * @brief  Read device id
+  * @param  self: object
+  * @param  device_id: get the id value
+  * @retval 0
+  */
 int8_t bsp_w25qxx_read_device_id(bsp_w25qxx_t * self, uint32_t * device_id)
 {
 	uint32_t deviceID = 0;
@@ -64,12 +85,18 @@ int8_t bsp_w25qxx_read_device_id(bsp_w25qxx_t * self, uint32_t * device_id)
 	self->spi_interface.set_cs_high();
 	
 	deviceID = (tmp0 << 16) | (tmp1 << 8) | tmp2;
+    LOG(self, "deviceID = 0x%x", deviceID);
 	
 	*device_id =  deviceID;
 
     return 0;
 }
 
+/**
+  * @brief  Enable write
+  * @param  self: object
+  * @retval 0
+  */
 int8_t bsp_w25qxx_write_enable(bsp_w25qxx_t * self)
 {
     /*!< Enable selected Chip */
@@ -84,6 +111,11 @@ int8_t bsp_w25qxx_write_enable(bsp_w25qxx_t * self)
     return 0;
 }
 
+/**
+  * @brief  Wait for write finish
+  * @param  self: object
+  * @retval 0
+  */
 int8_t bsp_w25qxx_wait_for_write_end(bsp_w25qxx_t * self)
 {
     uint8_t flg = 0;
@@ -103,6 +135,12 @@ int8_t bsp_w25qxx_wait_for_write_end(bsp_w25qxx_t * self)
     return 0;
 }
 
+/**
+  * @brief  Erase sectors
+  * @param  self: object
+  * @param  sector_addr: sector address
+  * @retval 0
+  */
 int8_t bsp_w25qxx_erase_sector(bsp_w25qxx_t * self, uint32_t sector_addr)
 {
     /*!< Enable write */
@@ -132,6 +170,12 @@ int8_t bsp_w25qxx_erase_sector(bsp_w25qxx_t * self, uint32_t sector_addr)
     return 0;
 }
 
+/**
+  * @brief  Erase 32k block
+  * @param  self: object
+  * @param  block_addr: block address
+  * @retval 0
+  */
 int8_t bsp_w25qxx_erase_block_32k(bsp_w25qxx_t * self, uint32_t block_addr)
 {
     /*!< Enable write */
@@ -161,6 +205,12 @@ int8_t bsp_w25qxx_erase_block_32k(bsp_w25qxx_t * self, uint32_t block_addr)
     return 0;
 }
 
+/**
+  * @brief  Erase 64k block
+  * @param  self: object
+  * @param  block_addr: block address
+  * @retval 0
+  */
 int8_t bsp_w25qxx_erase_block_64k(bsp_w25qxx_t * self, uint32_t block_addr)
 {
     /*!< Enable write */
@@ -190,6 +240,11 @@ int8_t bsp_w25qxx_erase_block_64k(bsp_w25qxx_t * self, uint32_t block_addr)
     return 0;
 }
 
+/**
+  * @brief  Erase whole chip
+  * @param  self: object
+  * @retval 0
+  */
 int8_t bsp_w25qxx_erase_chip(bsp_w25qxx_t * self)
 {
     /*!< Enable write */
@@ -210,6 +265,14 @@ int8_t bsp_w25qxx_erase_chip(bsp_w25qxx_t * self)
     return 0;
 }
 
+/**
+  * @brief  Write a page
+  * @param  self: object
+  * @param  buf_ptr: buffer
+  * @param  page_addr：page address
+  * @param  data_size: buffer length
+  * @retval 0
+  */
 int8_t bsp_w25qxx_page_program( bsp_w25qxx_t * self, 
                                 uint8_t * buf_ptr, 
                                 uint32_t page_addr, 
@@ -248,6 +311,14 @@ int8_t bsp_w25qxx_page_program( bsp_w25qxx_t * self,
     return 0;
 }
 
+/**
+  * @brief  Write buffer
+  * @param  self: object
+  * @param  write_buf: a buffer to write
+  * @param  write_addr: write address
+  * @param  write_size: write length
+  * @retval 0
+  */
 int8_t bsp_w25qxx_write_buf( bsp_w25qxx_t * self, 
                              uint8_t * write_buf, 
                              uint32_t write_addr, 
@@ -282,6 +353,14 @@ int8_t bsp_w25qxx_write_buf( bsp_w25qxx_t * self,
     return 0;
 }
 
+/**
+  * @brief  Store the read data in the buffer 
+  * @param  self: object
+  * @param  read_buf: store buffer
+  * @param  read_addr: read address
+  * @param  read_size: read length
+  * @retval 0
+  */
 int8_t bsp_w25qxx_read_buf( bsp_w25qxx_t * self, 
                             uint8_t * read_buf, 
                             uint32_t read_addr, 
@@ -314,12 +393,18 @@ int8_t bsp_w25qxx_read_buf( bsp_w25qxx_t * self,
     return 0;
 }
 
+
 int8_t bsp_w25qxx_init( bsp_w25qxx_t * self, 
+
+#if W25QXX_DEBUG
+                        void    (* pf_debug_print)             (const char *const fmt, ...),
+#endif
+
                         int8_t  (* pf_spi_init)                (void),
                         int8_t  (* pf_spi_deinit)              (void),
                         void    (* pf_spi_set_cs_high)         (void),
                         void    (* pf_spi_set_cs_low)          (void),
-                        uint8_t (* pf_spi_send_receive_byte)   (uint8_t byte) )
+                        uint8_t (* pf_spi_send_receive_byte)   (uint8_t byte))
 {   
     memset(self, 0, sizeof(bsp_w25qxx_t));
 
@@ -328,6 +413,7 @@ int8_t bsp_w25qxx_init( bsp_w25qxx_t * self,
     self->spi_interface.set_cs_high         = pf_spi_set_cs_high;
     self->spi_interface.set_cs_low          = pf_spi_set_cs_low;
     self->spi_interface.send_receive_byte   = pf_spi_send_receive_byte;
+
 
     if( (self->spi_interface.init               == NULL) ||
         (self->spi_interface.deinit             == NULL) ||
@@ -338,7 +424,18 @@ int8_t bsp_w25qxx_init( bsp_w25qxx_t * self,
         return -1;
     }
 
+#if W25QXX_DEBUG
+
+    self->debug_print = pf_debug_print;
+
+    if(self->debug_print == NULL) {
+        return -3;
+    }
+
+#endif
+
     if(0 != self->spi_interface.init()) {
+        LOG(self, "Init Fail!");
         return -2;
     }
 
@@ -353,6 +450,8 @@ int8_t bsp_w25qxx_init( bsp_w25qxx_t * self,
     self->write_buf             = bsp_w25qxx_write_buf;
     self->read_buf              = bsp_w25qxx_read_buf;
 
+    LOG(self, "Finished!");
+
     return 0;
 }
 
@@ -360,6 +459,39 @@ int8_t bsp_w25qxx_init( bsp_w25qxx_t * self,
 /**********************
  *   STATIC FUNCTIONS
  **********************/
+#if W25QXX_DEBUG
+static void _bsp_w25qxx_log_add( bsp_w25qxx_t * self, 
+                                 const char * file, 
+                                 int line, 
+                                 const char * func, 
+                                 const char * format, 
+                                 ... )
+{
+    char str[512] = {0};
+    char * ptr = &str[0];
+    
+    va_list args;
+    va_start(args, format); 
+    
+    /*Use only the file name not the path*/
+    size_t p;
+    for(p = strlen(file); p > 0; p--) {
+        if(file[p] == '/' || file[p] == '\\') {
+            p++;    /*Skip the slash*/
+            break;
+        }
+    }
+
+    self->debug_print("[%s]\t %s: ", "W25QXX", func);
+    
+    vsnprintf(str, 255, format, args);
+    va_end(args);
+
+    self->debug_print("%s", ptr);
+    
+    self->debug_print(" \t(in %s line #%d)\n", &file[p], line);
+}
+#endif
 
 
 /******************************* (END OF FILE) *********************************/

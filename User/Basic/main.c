@@ -75,7 +75,7 @@ static void Init(void)
 }
 
 /**
-  * @brief  All settings.
+  * @brief  Demos
   * @param  None
   * @retval NULL
   */
@@ -107,11 +107,11 @@ static void Demo(void)
     demo_bmp180_test();
 #endif
 
-#if 0
+#if 1
     demo_w25qxx_test();
 #endif
 
-#if 1
+#if 0
     demo_lcd_test();
 #endif
 
