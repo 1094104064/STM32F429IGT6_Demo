@@ -37,8 +37,9 @@
 #define IIC_SDA_0     IIC_PORT->BSRRH = IIC_SDA_PIN
 
 
-#define IIC_DELAY_PERIOD    1000 * 48
+#define IIC_DELAY_PERIOD    (1000 * 48)
 #define IIC_DELAY_MS(ms)    do {for(uint32_t i = 0; i < (ms) * IIC_DELAY_PERIOD; i++);} while(0);
+#define IIC_TIME_OUT        1000
 
 #define LOG(...)      LOG_INFO(__VA_ARGS__)
 
@@ -219,7 +220,7 @@ int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
     core_swiic_send_byte(dev_addr);
     while(core_swiic_wait_ack()) {
         ticks++;
-        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+        if(ticks >= IIC_TIME_OUT) {
             LOG("send write device address failed!");
             return -1;
         }
@@ -230,7 +231,7 @@ int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
     core_swiic_send_byte(reg_addr);
     while(core_swiic_wait_ack()) {
         ticks++;
-        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+        if(ticks >= IIC_TIME_OUT) {
             LOG("send reg address failed!");
             return -1;
         }
@@ -242,7 +243,7 @@ int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
         core_swiic_send_byte(*pbuf);
         while(core_swiic_wait_ack()) {
             ticks++;
-            if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+            if(ticks >= IIC_TIME_OUT) {
                 LOG("send data failed!");
                 return -1;
             }
@@ -264,7 +265,7 @@ int8_t core_swiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, u
     core_swiic_send_byte(dev_addr);
     while(core_swiic_wait_ack()) {
         ticks++;
-        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+        if(ticks >= IIC_TIME_OUT) {
             LOG("send write device address failed!");
             return -1;
         }
@@ -275,7 +276,7 @@ int8_t core_swiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, u
     core_swiic_send_byte(reg_addr);
     while(core_swiic_wait_ack()) {
         ticks++;
-        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+        if(ticks >= IIC_TIME_OUT) {
             LOG("send reg address failed!");
             return -1;
         }
@@ -287,7 +288,7 @@ int8_t core_swiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, u
     core_swiic_send_byte(dev_addr + 1);
     while(core_swiic_wait_ack()) {
         ticks++;
-        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+        if(ticks >= IIC_TIME_OUT) {
             LOG("send read device address failed!");
             return -1;
         }
