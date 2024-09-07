@@ -22,7 +22,7 @@ extern "C" {
 #include "core_gpio.h"
 #include "core_systick.h"
 #include "core_usart1.h"
-#include "core_tim6.h"
+#include "core_tim7.h"
 #include "core_swiic.h"
 #include "core_hwiic.h"
 #include "core_spi1.h"

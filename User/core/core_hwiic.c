@@ -18,6 +18,7 @@
  *      INCLUDES
  *********************/
 #include "core_hwiic.h"
+#include "core_systick.h"
 /**********************
  *      MACROS
  **********************/
@@ -283,6 +284,10 @@ int8_t core_hwiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, u
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-
+static uint32_t _get_ticks(void)
+{
+    /*You code here*/
+    return 0;
+}
 
 /******************************* (END OF FILE) *********************************/

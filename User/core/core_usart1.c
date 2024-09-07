@@ -110,13 +110,10 @@ int8_t core_usart1_init(void)
     USART_Cmd(USART1, ENABLE);	
     
 
-    /*!< interrupt priority divide into groups */
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	
-
     /*!< NVIC_InitStructure members configuration */
     NVIC_InitStructure.NVIC_IRQChannel                   = USART1_IRQn;     /**< Enable Usart1 interrupt Channel*/
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 3;               /**< PreemptionPriority 3*/
-    NVIC_InitStructure.NVIC_IRQChannelSubPriority        = 1;               /**< SubPriority 1*/
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;               /**< PreemptionPriority 3*/
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority        = 0;               /**< SubPriority 1*/
     NVIC_InitStructure.NVIC_IRQChannelCmd                = ENABLE;          /**< Enable interrupt*/
     NVIC_Init(&NVIC_InitStructure); 
     

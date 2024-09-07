@@ -71,6 +71,9 @@ int main(void)
   */
 static void Init(void)
 {
+    /*!< interrupt priority divide into groups */
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	
+    
     bsp_init();
 }
 
@@ -107,7 +110,7 @@ static void Demo(void)
     demo_bmp180_test();
 #endif
 
-#if 1
+#if 0
     demo_w25qxx_test();
 #endif
 

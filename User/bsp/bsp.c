@@ -44,12 +44,8 @@
  **********************/ 
 int8_t bsp_init(void)
 {
-    bsp_console_t debug_port;
-
-    bsp_console_init( &debug_port, 
-                      core_usart1_init,
-                      core_usart1_deinit,
-                      core_usart1_receive_cb);
+    core_usart1_init();
+    core_systick_init();
     
     return 0;
 }

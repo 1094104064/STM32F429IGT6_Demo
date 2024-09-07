@@ -1,15 +1,15 @@
 /**
   ******************************************************************************
   *
-  * @file    core_tim6.h
+  * @file    core_tim7.h
   * @author  GarMing
-  * @brief   Header file of core_tim6 module.
+  * @brief   Header file of core_tim7 module.
   *
   ******************************************************************************
   **/
   
-#ifndef _CORE_TIM6_H
-#define _CORE_TIM6_H
+#ifndef _CORE_TIM7_H
+#define _CORE_TIM7_H
 
 
 #ifdef __cplusplus
@@ -31,9 +31,11 @@ extern "C" {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-void core_tim6_init(void);
-void core_tim6_delay_ms(uint32_t ms);
-void core_tim6_delay_us(uint32_t us);    
+void core_tim7_init(void);
+void core_tim7_irq_handler(void);
+uint32_t core_tim7_get_ticks(void);
+void core_tim7_delay_us(uint32_t us); 
+void core_tim7_delay_ms(uint32_t ms);
 /**********************
  *      MACROS
  **********************/
@@ -44,7 +46,7 @@ void core_tim6_delay_us(uint32_t us);
 }
 #endif
 
-#endif /*_CORE_TIM6_H*/
+#endif /*_CORE_TIM7_H*/
 
 
 /******************************* (END OF FILE) *********************************/

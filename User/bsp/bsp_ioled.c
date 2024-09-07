@@ -43,11 +43,6 @@ int8_t _bsp_ioled_grad_light(bsp_ioled_t * self);
  *   GLOBAL FUNCTIONS
  **********************/ 
 
-/**
-  * @brief  Content
-  * @param  None
-  * @retval NULL
-  */
 int8_t bsp_ioled_init(bsp_ioled_t * self, 
                       int8_t (* pf_init)(void), 
                       int8_t (* pf_deinit)(void),
@@ -93,6 +88,12 @@ int8_t bsp_ioled_init(bsp_ioled_t * self,
  *   STATIC FUNCTIONS
  **********************/
 
+/**
+  * @brief  Content
+  * @param  self: object
+  * @param  period: 
+  * @retval 0
+  */
 int8_t _bsp_ioled_flash_light(bsp_ioled_t * self, uint32_t period)
 {
     self->on();
@@ -103,6 +104,11 @@ int8_t _bsp_ioled_flash_light(bsp_ioled_t * self, uint32_t period)
     return 0;
 }
 
+/**
+  * @brief  Content
+  * @param  self: object
+  * @retval 0
+  */
 int8_t _bsp_ioled_grad_light(bsp_ioled_t * self)
 {
     static uint8_t pwmset;

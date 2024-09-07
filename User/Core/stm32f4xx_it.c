@@ -145,9 +145,14 @@ void USART1_IRQHandler(void)
 void EXTI9_5_IRQHandler(void)
 {
     EXTI_ClearITPendingBit(EXTI_Line8);
-
-    LOG_INFO("!");
 }
 
+
+void TIM7_IRQHandler(void)
+{
+    TIM_ClearITPendingBit(TIM7, TIM_IT_Update);
+    
+    core_tim7_irq_handler();
+}
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
