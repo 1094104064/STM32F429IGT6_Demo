@@ -18,7 +18,7 @@
  *      INCLUDES
  *********************/
 #include "core_hwiic.h"
-#include "core_systick.h"
+#include "log.h"
 /**********************
  *      MACROS
  **********************/
@@ -33,7 +33,9 @@
 #define IIC_SDA_PIN     GPIO_Pin_7
 #define IIC_SDA_PIN_SRC GPIO_PinSource7
 
-#define IIC_TIMEOUT_1S  1000 * 4800     
+#define IIC_TIME_OUT    1000 * 4800     
+
+#define LOG(...)        LOG_INFO(__VA_ARGS__)
 /*********************
  *      DEFINES
  *********************/
@@ -99,171 +101,161 @@ int8_t core_hwiic_deinit(void)
     return 0;
 }
 
-
-/**
-  * @brief  I2C Start signal
-  * @param  I2Cx: i2c peripheral
-  * @retval NULL
-  */
-int8_t core_hwiic_start(void)
+int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
-    uint32_t ticks = 0;
-
-    /*!< Generate a START condition */
-    I2C_GenerateSTART(IIC, ENABLE);
-
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS) {
-
-        if(ticks >= IIC_TIMEOUT_1S) return -1;
-        ticks++;
-    };
-
-    return 0;
-}
-
-/**
-  * @brief  I2C Stop signal
-  * @param  I2Cx: i2c peripheral
-  * @retval NULL
-  */
-int8_t core_hwiic_stop(void)
-{
-    /*!< Generate a STOP condition */
-    I2C_GenerateSTOP(IIC, ENABLE);
-
-    return 0;
-}
-
-/**
-  * @brief  Send 8bit data
-  * @param  I2Cx: i2c peripheral
-  * @param  byte: 8bit data
-  * @retval NULL
-  */
-int8_t core_hwiic_send_byte(uint8_t byte)
-{
-    I2C_SendData(IIC, byte);
-
-    return 0;    
-}
-
-/**
-  * @brief  Read 8bit data
-  * @param  I2Cx: i2c peripheral
-  * @retval 8bit data
-  */
-uint8_t core_hwiic_read_byte(void)
-{
-    uint32_t ticks = 0;
-
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_RECEIVED) != SUCCESS) {
-
-        if(ticks >= IIC_TIMEOUT_1S) return 1;
-        ticks++;
-    };
-
-    return I2C_ReceiveData(IIC);
-}
-
-uint8_t core_hwiic_wait_ack(void)
-{
-    uint32_t ticks = 0;
-
-    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS) {
-
-        if(ticks >= IIC_TIMEOUT_1S) return 1;
-        ticks++;
-    };
-
-    return 0;
-}
-
-/**
-  * @brief  Generates an answering or non-answering signal
-  * @param  I2Cx: i2c peripheral
-  * @param  NewState: Enable-Ack, Disable-NoAck
-  * @retval NULL
-  */
-int8_t core_hwiic_generate_ack(void)
-{
-    I2C_AcknowledgeConfig(IIC, ENABLE);
-
-    return 0;
-}
-
-/**
-  * @brief  Generates an answering or non-answering signal
-  * @param  I2Cx: i2c peripheral
-  * @param  NewState: Enable-Ack, Disable-NoAck
-  * @retval NULL
-  */
-int8_t core_hwiic_generate_nack(void)
-{
-    I2C_AcknowledgeConfig(IIC, DISABLE);
-    
-    return 0;
-}
-
-
-int8_t core_hwiic_is_busy(void)
-{   
     uint32_t ticks = 0;
 
     while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY)) {
-
-        if(ticks >= IIC_TIMEOUT_1S) return -1;
         ticks++;
-    };
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Get busy flag failed!");
+            return -1;
+        }
+    }
 
-    return 0;
-}
-
-int8_t core_hwiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
-{
-    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+    ticks = 0;
 
     I2C_GenerateSTART(IIC, ENABLE);
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Generate start failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_Send7bitAddress(IIC, dev_addr, I2C_Direction_Transmitter);
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) != SUCCESS);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Send write device address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_SendData(IIC, reg_addr);
-    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);
+    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Send reg address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     for(uint32_t i = 0; i < len; i++) {
         I2C_SendData(IIC, *pbuf);
-        while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);    
+
+        while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS) {
+            ticks++;
+            if(ticks >= IIC_TIME_OUT) {
+                LOG("Send data failed!");
+                return -1;
+            }
+        }
+
         pbuf++;
+        ticks = 0;
     }
 
+    ticks = 0;
+
     I2C_GenerateSTOP(IIC, ENABLE);
-    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY)) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Get busy flag failed!");
+            return -1;
+        }
+    }
 
     return 0;
 }
 
 int8_t core_hwiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
-    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+    uint32_t ticks = 0;
+
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY)) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Get busy flag failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_GenerateSTART(IIC, ENABLE);
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Generate start failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_Send7bitAddress(IIC, dev_addr, I2C_Direction_Transmitter);
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) != SUCCESS);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Send write device address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_SendData(IIC, reg_addr);
-    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS);
+    while (I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_TRANSMITTED) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Send reg address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_GenerateSTOP(IIC, ENABLE);
-    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY));
+    while(I2C_GetFlagStatus(IIC, I2C_FLAG_BUSY)) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Get busy flag failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_GenerateSTART(IIC, ENABLE);
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_MODE_SELECT) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Generate start failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     I2C_Send7bitAddress(IIC, dev_addr + 1, I2C_Direction_Receiver);
-    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) != SUCCESS);
+    while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED) != SUCCESS) {
+        ticks++;
+        if(ticks >= IIC_TIME_OUT) {
+            LOG("Send read device address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     while(len--) {
         if(len == 0) {
@@ -271,9 +263,17 @@ int8_t core_hwiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, u
             I2C_GenerateSTOP(IIC, ENABLE);
         }
 
-        while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_RECEIVED) != SUCCESS);
+        while(I2C_CheckEvent(IIC, I2C_EVENT_MASTER_BYTE_RECEIVED) != SUCCESS) {
+            ticks++;
+            if(ticks >= IIC_TIME_OUT) {
+                LOG("Read data failed!");
+                return -1;
+            }
+        }
+
         *pbuf = I2C_ReceiveData(IIC);
         pbuf++;
+        ticks = 0;
     }
 
     I2C_AcknowledgeConfig(IIC, ENABLE);
@@ -284,10 +284,6 @@ int8_t core_hwiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, u
 /**********************
  *   STATIC FUNCTIONS
  **********************/
-static uint32_t _get_ticks(void)
-{
-    /*You code here*/
-    return 0;
-}
+
 
 /******************************* (END OF FILE) *********************************/

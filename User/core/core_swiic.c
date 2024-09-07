@@ -249,6 +249,7 @@ int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
             }
         }
         pbuf++;
+        ticks = 0;
     }
 
     core_swiic_stop();
