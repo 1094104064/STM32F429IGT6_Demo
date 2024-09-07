@@ -18,6 +18,7 @@
  *      INCLUDES
  *********************/
 #include "core_swiic.h"
+#include "log.h"
 /**********************
  *      MACROS
  **********************/
@@ -39,6 +40,8 @@
 #define IIC_DELAY_PERIOD    1000 * 48
 #define IIC_DELAY_MS(ms)    do {for(uint32_t i = 0; i < (ms) * IIC_DELAY_PERIOD; i++);} while(0);
 
+#define LOG(...)      LOG_INFO(__VA_ARGS__)
+
 /*********************
  *      DEFINES
  *********************/
@@ -50,8 +53,7 @@
 /**********************
  *  STATIC PROTOTYPES
  **********************/
-static int8_t _core_is_sda_1(void);
-static int8_t _core_is_scl_1(void);
+static int8_t _core_swiic_is_sda_1(void);
 /**********************
  *  STATIC VARIABLES
  **********************/
@@ -72,8 +74,8 @@ int8_t core_swiic_init(void)
     GPIO_InitStructure.GPIO_OType = GPIO_OType_OD;		
     GPIO_InitStructure.GPIO_PuPd  = GPIO_PuPd_UP;	
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;	
-	GPIO_InitStructure.GPIO_Pin = IIC_SCL_PIN | IIC_SDA_PIN;
-	GPIO_Init(IIC_PORT, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin   = IIC_SCL_PIN | IIC_SDA_PIN;
+    GPIO_Init(IIC_PORT, &GPIO_InitStructure);
 
     return 0;
 }
@@ -157,7 +159,7 @@ uint8_t core_swiic_read_byte(void)
         IIC_SCL_1;
         IIC_DELAY_MS(2);
 
-        if(_core_is_sda_1()) val++;
+        if(_core_swiic_is_sda_1()) val++;
 
         IIC_SCL_0;
         IIC_DELAY_MS(2);
@@ -174,7 +176,7 @@ uint8_t core_swiic_wait_ack(void)
     IIC_SCL_1;                      /**< CPU set the SCL to high, the device will return ACK response*/
     IIC_DELAY_MS(2);
 
-    if(_core_is_sda_1()) val = 1;  
+    if(_core_swiic_is_sda_1()) val = 1;  
 
     else val = 0;
     IIC_SCL_0;
@@ -208,32 +210,43 @@ int8_t core_swiic_generate_nack(void)
     return 0;
 }
 
-int8_t core_swiic_is_busy(void)
+int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
     uint32_t ticks = 0;
 
-    while (_core_is_sda_1() || _core_is_scl_1()) {
-        
-        if(ticks >= 1000 * 48000) return -1;
-        ticks++;
-    }
-
-    return 0;
-}
-
-int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
-{
     core_swiic_start();
 
     core_swiic_send_byte(dev_addr);
-    while(core_swiic_wait_ack());
+    while(core_swiic_wait_ack()) {
+        ticks++;
+        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+            LOG("send write device address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     core_swiic_send_byte(reg_addr);
-    while(core_swiic_wait_ack());
+    while(core_swiic_wait_ack()) {
+        ticks++;
+        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+            LOG("send reg address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     for(uint32_t i = 0; i < len; i++) {
         core_swiic_send_byte(*pbuf);
-        while(core_swiic_wait_ack());
+        while(core_swiic_wait_ack()) {
+            ticks++;
+            if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+                LOG("send data failed!");
+                return -1;
+            }
+        }
         pbuf++;
     }
 
@@ -244,17 +257,41 @@ int8_t core_swiic_buf_write(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, 
 
 int8_t core_swiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, uint16_t len)
 {
+    uint32_t ticks = 0;
+
     core_swiic_start();
 
     core_swiic_send_byte(dev_addr);
-    while(core_swiic_wait_ack());
+    while(core_swiic_wait_ack()) {
+        ticks++;
+        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+            LOG("send write device address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     core_swiic_send_byte(reg_addr);
-    while(core_swiic_wait_ack());
+    while(core_swiic_wait_ack()) {
+        ticks++;
+        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+            LOG("send reg address failed!");
+            return -1;
+        }
+    }
+
+    ticks = 0;
 
     core_swiic_start();
     core_swiic_send_byte(dev_addr + 1);
-    while(core_swiic_wait_ack());
+    while(core_swiic_wait_ack()) {
+        ticks++;
+        if(ticks >= 1000 * IIC_DELAY_PERIOD) {
+            LOG("send read device address failed!");
+            return -1;
+        }
+    }
 
     for(uint32_t i = 0; i < (len - 1); i++){
         *pbuf = core_swiic_read_byte();
@@ -273,12 +310,13 @@ int8_t core_swiic_buf_read(uint8_t dev_addr, uint8_t reg_addr, uint8_t * pbuf, u
 /**********************
  *   STATIC FUNCTIONS
  **********************/
+
 /**
   * @brief  Check whether SDA is High
   * @param  None
   * @retval 1 High, 0 Low
   */
-static int8_t _core_is_sda_1(void)
+static int8_t _core_swiic_is_sda_1(void)
 {
     if((IIC_PORT->IDR & IIC_SDA_PIN) != 0) 
         return 1;
@@ -286,12 +324,7 @@ static int8_t _core_is_sda_1(void)
         return 0;    
 }
 
-static int8_t _core_is_scl_1(void)
-{
-    if((IIC_PORT->IDR & IIC_SCL_PIN) != 0) 
-        return 1;
-    else 
-        return 0;  
-}
+
+
 
 /******************************* (END OF FILE) *********************************/

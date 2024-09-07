@@ -106,7 +106,7 @@ static void Demo(void)
     demo_task_printf();
 #endif
 
-#if 0
+#if 1
     demo_bmp180_test();
 #endif
 
