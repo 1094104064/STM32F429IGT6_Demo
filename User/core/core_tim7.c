@@ -99,9 +99,6 @@ void core_tim7_delay_ms(uint32_t ms)
 
 
 
-  
-
-
 /**********************
  *   STATIC FUNCTIONS
  **********************/

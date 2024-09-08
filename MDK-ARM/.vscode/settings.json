@@ -27,7 +27,8 @@
         "log.h": "c",
         "core_ltdc.h": "c",
         "stdio.h": "c",
-        "bsp_lcd.h": "c"
+        "bsp_lcd.h": "c",
+        "ringbuffer.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "editor.fontFamily": "Ubuntu Mono ,  'Consolas',  monospace",

@@ -82,11 +82,17 @@ int8_t bsp_bmp180_temp_reg_read(bsp_bmp180_t * self, uint32_t * temp)
     uint32_t tmp = 0;
 
     data_buf[0] = BMP180_TEMP_REG;
-    self->iic_interface.write_buf(BMP180_DEV_ADDR, BMP180_MESSURE_REG, data_buf, 1);
+    if(0 != self->iic_interface.write_buf(BMP180_DEV_ADDR, BMP180_MESSURE_REG, data_buf, 1)) {
+        LOG(self, "Write messure reg failed!");
+        return -1;
+    }
 
     self->delay_interface.delay_ms(20);
 
-    self->iic_interface.read_buf(BMP180_DEV_ADDR, BMP180_RESULT_REG, buf, 2);
+    if(0 != self->iic_interface.read_buf(BMP180_DEV_ADDR, BMP180_RESULT_REG, buf, 2)) {
+        LOG(self, "Read result reg failed!");
+        return -2;
+    }
 
     tmp = (((buf[0] << 8) | buf[1]));
 
@@ -108,11 +114,17 @@ int8_t bsp_bmp180_pressure_reg_read(bsp_bmp180_t * self, uint32_t * pre)
     uint32_t tmp = 0;
 
     data_buf[0] = BMP180_PRE_REG;
-    self->iic_interface.write_buf(BMP180_DEV_ADDR, BMP180_MESSURE_REG, data_buf, 1);
+    if(0 != self->iic_interface.write_buf(BMP180_DEV_ADDR, BMP180_MESSURE_REG, data_buf, 1)) {
+        LOG(self, "Write result reg failed!");
+        return -1;
+    }
 
     self->delay_interface.delay_ms(20);
 
-    self->iic_interface.read_buf(BMP180_DEV_ADDR, BMP180_RESULT_REG, buf, 2);
+    if(0 != self->iic_interface.read_buf(BMP180_DEV_ADDR, BMP180_RESULT_REG, buf, 2)) {
+        LOG(self, "Read result reg failed!");
+        return -2;
+    }
 
     tmp = ((buf[0] << 8) | buf[1]);
 

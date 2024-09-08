@@ -98,14 +98,6 @@ static void Demo(void)
     demo_console_receive();
 #endif
 
-#if 0
-    demo_tick_delay_printf();
-#endif
-
-#if 0
-    demo_task_printf();
-#endif
-
 #if 1
     demo_bmp180_test();
 #endif

@@ -65,6 +65,12 @@ static usart1_rec_t s_Usart1RecInfo;
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
+
+/**
+  * @brief  Usart1 initialize
+  * @param  None
+  * @retval 0
+  */
 int8_t core_usart1_init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure = {0};
@@ -123,6 +129,11 @@ int8_t core_usart1_init(void)
     return 0;
 }
 
+/**
+  * @brief  Usart1 deinitialize
+  * @param  None
+  * @retval 0
+  */
 int8_t core_usart1_deinit(void)
 {
     /*!< Disable the Usart1 GPIO clock */
@@ -134,6 +145,11 @@ int8_t core_usart1_deinit(void)
     return 0;
 }
 
+/**
+  * @brief  Serial port receives data frame processing
+  * @param  None
+  * @retval NULL
+  */
 void core_usart1_receive_proc(void)
 {
     static uint16_t i; 
@@ -155,6 +171,11 @@ void core_usart1_receive_proc(void)
     if(i > RECEIVE_BUF_SIZE) i = 0;
 }
 
+/**
+  * @brief  Return to the serial port to receive data
+  * @param  None
+  * @retval NULL
+  */
 void core_usart1_receive_cb(void)
 {
     /*!< Data reception completed */
@@ -176,6 +197,11 @@ void core_usart1_receive_cb(void)
     }
 }
 
+/**
+  * @brief  Serial port sends data of indefinite length
+  * @param  fmt: the data of indefinite length
+  * @retval NULL
+  */
 void core_usart1_print(const char * const fmt, ...)
 {
     char str[256];

@@ -31,14 +31,11 @@ extern "C" {
 #include "core_dma2d.h"
     
 #include "bsp_ioled.h"
-#include "bsp_tick.h"
 #include "bsp_console.h"
-#include "bsp_task.h"
 #include "bsp_beep.h"
 #include "bsp_bmp180.h"
 #include "bsp_w25qxx.h"
 #include "bsp_st7735.h"
-#include "bsp_task.h"
 #include "bsp_lcd.h"
 
 /*********************

@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F429_439xx,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\CMSIS\Include;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\User\basic;..\User\core;..\User\bsp;..\User\lib;..\User\demo</IncludePath>
+              <IncludePath>..\Libraries\CMSIS\Device\ST\STM32F4xx\Include;..\Libraries\CMSIS\Include;..\Libraries\STM32F4xx_StdPeriph_Driver\inc;..\User\basic;..\User\core;..\User\bsp;..\User\widgets;..\User\lib;..\User\demo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -465,16 +465,6 @@
               <FilePath>..\User\bsp\bsp.c</FilePath>
             </File>
             <File>
-              <FileName>bsp_task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\bsp\bsp_task.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_tick.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\bsp\bsp_tick.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_lcd.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\bsp\bsp_lcd.c</FilePath>
@@ -507,17 +497,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/algorithm</GroupName>
+          <GroupName>User/widgets</GroupName>
           <Files>
             <File>
-              <FileName>alg_ringbuf.c</FileName>
+              <FileName>ringBuffer.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\algorithm\alg_ringbuf.c</FilePath>
+              <FilePath>..\User\widgets\ringBuffer.c</FilePath>
             </File>
             <File>
-              <FileName>alg_linklist.c</FileName>
+              <FileName>taskScher.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\algorithm\alg_linklist.c</FilePath>
+              <FilePath>..\User\widgets\taskScher.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -538,16 +528,6 @@
               <FileName>demo_console_receive.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\demo\demo_console_receive.c</FilePath>
-            </File>
-            <File>
-              <FileName>demo_tick_delay_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\demo\demo_tick_delay_printf.c</FilePath>
-            </File>
-            <File>
-              <FileName>demo_task_printf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\demo\demo_task_printf.c</FilePath>
             </File>
             <File>
               <FileName>demo_bmp180_test.c</FileName>

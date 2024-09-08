@@ -38,30 +38,30 @@ typedef struct _alg_ringbuf_t {
 * GLOBAL PROTOTYPES
 **********************/
 
-int             alg_ringbuf_init(alg_ringbuf_t * pHandle, char * pBuf, ringbuf_size_t buf_size);
-void            alg_ringbuf_enqueue_byte(alg_ringbuf_t * pHandle, char byte);
-void            alg_ringbuf_enqueue_data(alg_ringbuf_t * pHandle, const char * pData, ringbuf_size_t data_size);
-int             alg_ringbuf_dequeue_byte(alg_ringbuf_t * pHandle, char * pBbyte);
-ringbuf_size_t  alg_ringbuf_dequeue_data(alg_ringbuf_t * pHandle, char * pData, ringbuf_size_t data_size);
-int             alg_ringbuf_peek(alg_ringbuf_t * pHandle, char * pData, ringbuf_size_t index);
+int             alg_ringbuf_init(alg_ringbuf_t * self, char * pBuf, ringbuf_size_t buf_size);
+void            alg_ringbuf_enqueue_byte(alg_ringbuf_t * self, char byte);
+void            alg_ringbuf_enqueue_data(alg_ringbuf_t * self, const char * pData, ringbuf_size_t data_size);
+int             alg_ringbuf_dequeue_byte(alg_ringbuf_t * self, char * pBbyte);
+ringbuf_size_t  alg_ringbuf_dequeue_data(alg_ringbuf_t * self, char * pData, ringbuf_size_t data_size);
+int             alg_ringbuf_peek(alg_ringbuf_t * self, char * pData, ringbuf_size_t index);
 
 
 
-inline uint8_t alg_ringbuf_is_empty(alg_ringbuf_t * pHandle)
+inline uint8_t alg_ringbuf_is_empty(alg_ringbuf_t * self)
 {
-    return (pHandle->head_index == pHandle->tail_index);
+    return (self->head_index == self->tail_index);
 }
 
-inline uint8_t alg_ringbuf_is_full(alg_ringbuf_t * pHandle)
+inline uint8_t alg_ringbuf_is_full(alg_ringbuf_t * self)
 {
-    return ((pHandle->head_index - pHandle->tail_index) &
-            (pHandle->buf_mask) == pHandle->buf_mask);
+    return ((self->head_index - self->tail_index) &
+            (self->buf_mask) == self->buf_mask);
 }
 
-inline ringbuf_size_t alg_ringbuf_get_items(alg_ringbuf_t * pHandle)
+inline ringbuf_size_t alg_ringbuf_get_items(alg_ringbuf_t * self)
 {
-    return ((pHandle->head_index - pHandle->tail_index) &
-            (pHandle->buf_mask));
+    return ((self->head_index - self->tail_index) &
+            (self->buf_mask));
 }
 
 /**********************
