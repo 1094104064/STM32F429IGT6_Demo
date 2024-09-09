@@ -31,10 +31,10 @@ extern "C" {
 typedef size_t ring_buffer_size_t;
 
 typedef struct _ring_buffer_ctx_t {
-    char * buf_ptr;
-    ring_buffer_size_t buf_mask;
-    ring_buffer_size_t tail_index;
-    ring_buffer_size_t head_index;
+    char *              buf_ptr;
+    ring_buffer_size_t  buf_mask;
+    ring_buffer_size_t  tail_index;
+    ring_buffer_size_t  head_index;
 }ring_buffer_ctx_t;
 
 /**********************

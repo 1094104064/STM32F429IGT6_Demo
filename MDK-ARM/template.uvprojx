@@ -500,6 +500,11 @@
           <GroupName>User/widgets</GroupName>
           <Files>
             <File>
+              <FileName>doubleBuffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\widgets\doubleBuffer.c</FilePath>
+            </File>
+            <File>
               <FileName>ringBuffer.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\widgets\ringBuffer.c</FilePath>
@@ -508,6 +513,11 @@
               <FileName>taskScher.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\widgets\taskScher.c</FilePath>
+            </File>
+            <File>
+              <FileName>pageMgr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\widgets\pageMgr.c</FilePath>
             </File>
           </Files>
         </Group>
