@@ -43,7 +43,7 @@ extern inline ring_buffer_size_t    ringBuffer_get_items(ring_buffer_ctx_t * sel
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/ 
-int ringBuffer_init(ring_buffer_ctx_t * self, char * buf_ptr, ring_buffer_size_t buf_length)
+int8_t ringBuffer_init(ring_buffer_ctx_t * self, char * buf_ptr, ring_buffer_size_t buf_length)
 {
     if (!(buf_length & (buf_length - 1))) {
         return -1;
@@ -74,7 +74,7 @@ void ringBuffer_enqueue_data(ring_buffer_ctx_t * self, const char * data_ptr, ri
     }
 }
 
-int ringBuffer_dequeue_byte(ring_buffer_ctx_t * self, char * byte)
+int8_t ringBuffer_dequeue_byte(ring_buffer_ctx_t * self, char * byte)
 {
     if(ringBuffer_is_empty(self)) {
         return -1;
@@ -103,7 +103,7 @@ ring_buffer_size_t ringBuffer_dequeue_data(ring_buffer_ctx_t * self, char * data
     return cnt;
 }
 
-int ringBuffer_peek(ring_buffer_ctx_t * self, char * data_ptr, ring_buffer_size_t idx)
+int8_t ringBuffer_peek(ring_buffer_ctx_t * self, char * data_ptr, ring_buffer_size_t idx)
 {
     if(idx >= ringBuffer_get_items(self)) {
         return -1;

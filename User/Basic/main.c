@@ -99,6 +99,10 @@ static void Demo(void)
 #endif
 
 #if 1
+    demo_taskScher_print();
+#endif
+
+#if 0
     demo_bmp180_test();
 #endif
 

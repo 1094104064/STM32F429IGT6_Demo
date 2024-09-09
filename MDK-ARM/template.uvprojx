@@ -530,6 +530,11 @@
               <FilePath>..\User\demo\demo_console_receive.c</FilePath>
             </File>
             <File>
+              <FileName>demo_taskScher_print.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\demo\demo_taskScher_print.c</FilePath>
+            </File>
+            <File>
               <FileName>demo_bmp180_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\demo\demo_bmp180_test.c</FilePath>

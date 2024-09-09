@@ -41,12 +41,12 @@ typedef struct _ring_buffer_ctx_t {
 *  GLOBAL PROTOTYPES
  **********************/
 
-int                 ringBuffer_init         (ring_buffer_ctx_t * self, char * buf_ptr, ring_buffer_size_t buf_length);
+int8_t              ringBuffer_init         (ring_buffer_ctx_t * self, char * buf_ptr, ring_buffer_size_t buf_length);
 void                ringBuffer_enqueue_byte (ring_buffer_ctx_t * self, char byte);
 void                ringBuffer_enqueue_data (ring_buffer_ctx_t * self, const char * data_ptr, ring_buffer_size_t data_length);
-int                 ringBuffer_dequeue_byte (ring_buffer_ctx_t * self, char * byte);
+int8_t              ringBuffer_dequeue_byte (ring_buffer_ctx_t * self, char * byte);
 ring_buffer_size_t  ringBuffer_dequeue_data (ring_buffer_ctx_t * self, char * data_ptr, ring_buffer_size_t data_length);
-int                 ringBuffer_peek         (ring_buffer_ctx_t * self, char * data_ptr, ring_buffer_size_t idx);
+int8_t              ringBuffer_peek         (ring_buffer_ctx_t * self, char * data_ptr, ring_buffer_size_t idx);
 
 inline uint8_t ringBuffer_is_empty(ring_buffer_ctx_t * self)
 {

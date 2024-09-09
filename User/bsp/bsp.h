@@ -38,6 +38,9 @@ extern "C" {
 #include "bsp_st7735.h"
 #include "bsp_lcd.h"
 
+#include "ringBuffer.h"
+#include "taskScher.h"
+
 /*********************
  *      DEFINES
  *********************/
