@@ -92,6 +92,10 @@ int8_t core_gpio_key_init(void)
     return 0;
 }
 
+uint8_t core_gpio_key_get_state(void)
+{
+    return (!GPIO_ReadInputDataBit(GPIOI, GPIO_Pin_8));
+}
 
 
 int8_t core_gpio_blue_led_init(void)

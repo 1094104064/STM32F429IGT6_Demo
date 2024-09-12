@@ -123,10 +123,10 @@ int8_t pageMgr_pop(void)
     return 0;
 }
 
-void pageMgr_event_send(void * obj, int event_code)
+void pageMgr_event_send(void * param, int event_code)
 {
     if(s_PagePool[s_NowPageID].event_cb != NULL) {
-        s_PagePool[s_NowPageID].event_cb(obj, event_code);
+        s_PagePool[s_NowPageID].event_cb(param, event_code);
     }
 }
 

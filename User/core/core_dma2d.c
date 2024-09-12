@@ -78,17 +78,10 @@ int8_t core_dma2d_fill_rect(uint16_t x, uint16_t y, uint16_t width, uint16_t hei
 }
 
 
-
-int8_t core_dma2d_copy_buffer_hor(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint32_t * color)
+void core_dma2d_flush(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t * color)
 {
-    return 0;
-}
 
-int8_t core_dma2d_copy_buffer_ver(uint16_t sx, uint16_t sy, uint16_t ex, uint16_t ey, uint32_t * color)
-{
-    return 0;
 }
-
 
 /**********************
  *   STATIC FUNCTIONS

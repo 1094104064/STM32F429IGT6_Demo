@@ -37,7 +37,7 @@ static uint32_t get_tick_elaps(uint32_t prev_tick);
 /**********************
  *  STATIC VARIABLES
  **********************/
-static uint32_t (* get_tick)(void);
+static uint32_t (* get_tick)(void) = NULL;
 
 static volatile uint8_t s_PriorityEnable;
 
@@ -145,14 +145,14 @@ task_scher_ctx_t * taskScher_register_task(task_scher_cb_t pf_task_cb, uint32_t 
     /*!< 为新任务申请内存 */
     task_handle = &s_TaskPool[idx];
 
-    task_handle->id_num         = idx;
-    task_handle->state        = state;        /**< 任务状态*/
-    task_handle->time_period  = period;       /**< 任务执行周期*/
-    task_handle->time_prev    = 0;            /**< 上一次时间*/
-    task_handle->time_cost    = 0;            /**< 时间开销*/
-    task_handle->time_error   = 0;            /**< 误差时间*/
-    task_handle->task_cb    = pf_task_cb;        /**< 任务回调函数*/
-    task_handle->next_task_handle    = NULL;         /**< 下一个节点*/
+    task_handle->id_num             = idx;
+    task_handle->state              = state;            /**< 任务状态*/
+    task_handle->time_period        = period;           /**< 任务执行周期*/
+    task_handle->time_prev          = 0;                /**< 上一次时间*/
+    task_handle->time_cost          = 0;                /**< 时间开销*/
+    task_handle->time_error         = 0;                /**< 误差时间*/
+    task_handle->task_cb            = pf_task_cb;       /**< 任务回调函数*/
+    task_handle->next_task_handle   = NULL;             /**< 下一个节点*/
 
     /*!< 如果任务链表为空 */
     if(s_HeadTaskHandle == NULL) {
@@ -270,6 +270,10 @@ uint32_t taskScher_get_time_cost(task_scher_cb_t pf_task_cb)
 
 void taskScher_handler(void)
 {
+    if(get_tick == NULL) {
+        return;
+    }
+
     uint32_t ticks = get_tick();
     
     task_scher_ctx_t * task_handle = s_HeadTaskHandle;

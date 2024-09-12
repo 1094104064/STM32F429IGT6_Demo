@@ -33,6 +33,7 @@ void demo_taskScher_print(void);
 void demo_bmp180_test(void);
 void demo_w25qxx_test(void);
 void demo_lcd_test(void);
+void demo_buttonEvent_test(void);
 /**********************
  *      MACROS
  **********************/

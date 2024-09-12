@@ -98,7 +98,7 @@ static void Demo(void)
     demo_console_receive();
 #endif
 
-#if 1
+#if 0
     demo_taskScher_print();
 #endif
 
@@ -112,6 +112,10 @@ static void Demo(void)
 
 #if 0
     demo_lcd_test();
+#endif
+
+#if 1
+    demo_buttonEvent_test();
 #endif
 
 }

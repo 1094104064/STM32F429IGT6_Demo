@@ -30,7 +30,7 @@ extern "C" {
  *      TYPEDEFS
  **********************/
 typedef void (* page_mgr_cb_t)(void);
-typedef void (* page_mgr_event_cb_t)(void * obj, int event_code);
+typedef void (* page_mgr_event_cb_t)(void * param, int event_code);
 
 
 typedef struct _page_mgr_ctx_t {
@@ -42,7 +42,17 @@ typedef struct _page_mgr_ctx_t {
 /**********************
 *  GLOBAL PROTOTYPES
  **********************/
-
+void    pageMgr_init        (void);
+void    pageMgr_change_to   (uint8_t page_id);
+int8_t  pageMgr_push        (uint8_t page_id);
+int8_t  pageMgr_pop         (void);
+void    pageMgr_event_send  (void * param, int event_code);
+int8_t  pageMgr_register    (uint8_t page_id, 
+                             page_mgr_cb_t pf_init_cb,
+                             page_mgr_cb_t pf_loop_cb,
+                             page_mgr_cb_t pf_exit_cb,
+                             page_mgr_event_cb_t pf_event_cb);
+void    pageMgr_handler     (void);
 /**********************
  *      MACROS
  **********************/

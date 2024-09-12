@@ -32,6 +32,7 @@ extern "C" {
 *  GLOBAL PROTOTYPES
  **********************/
 int8_t core_gpio_key_init(void);
+uint8_t core_gpio_key_get_state(void);
 
 int8_t core_gpio_blue_led_init(void);
 int8_t core_gpio_blue_led_deinit(void);

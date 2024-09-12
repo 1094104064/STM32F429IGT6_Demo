@@ -31,7 +31,9 @@
         "ringbuffer.h": "c",
         "taskscher.h": "c",
         "doublebuffer.h": "c",
-        "pagemgr.h": "c"
+        "pagemgr.h": "c",
+        "core_dma2d.h": "c",
+        "buttonevent.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "editor.fontFamily": "Ubuntu Mono ,  'Consolas',  monospace",

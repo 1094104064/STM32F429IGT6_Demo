@@ -38,8 +38,11 @@ extern "C" {
 #include "bsp_st7735.h"
 #include "bsp_lcd.h"
 
+#include "doubleBuffer.h"
 #include "ringBuffer.h"
 #include "taskScher.h"
+#include "pageMgr.h"
+#include "buttonEvent.h"
 
 /*********************
  *      DEFINES

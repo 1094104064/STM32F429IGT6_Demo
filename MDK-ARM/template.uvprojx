@@ -519,6 +519,11 @@
               <FileType>1</FileType>
               <FilePath>..\User\widgets\pageMgr.c</FilePath>
             </File>
+            <File>
+              <FileName>buttonEvent.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\widgets\buttonEvent.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -558,6 +563,11 @@
               <FileName>demo_lcd_test.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\demo\demo_lcd_test.c</FilePath>
+            </File>
+            <File>
+              <FileName>demo_buttonEvent_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\demo\demo_buttonEvent_test.c</FilePath>
             </File>
           </Files>
         </Group>
